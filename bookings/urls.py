@@ -31,12 +31,12 @@ urlpatterns = [
     path("confirm/", views.confirm_booking_view, name="confirm_booking"),
 
     # ============================================================
-    # 6) إرسال الحجز النهائي
+    # 6) تنفيذ الحجز النهائي
     # ============================================================
     path("complete/", views.complete_booking_view, name="complete_booking"),
 
     # ============================================================
-    # 7) صفحة نجاح الحجز (النهائية)
+    # 7) صفحة نجاح الحجز
     # ============================================================
     path("success/", views.booking_success_view, name="booking_success"),
 
@@ -44,5 +44,4 @@ urlpatterns = [
     # 8) صفحة حجوزات العميل
     # ============================================================
     path("my-bookings/", views.my_bookings_view, name="my_bookings"),
-    
 ]

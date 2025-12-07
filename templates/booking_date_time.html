@@ -5,291 +5,313 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>اختيار التاريخ والوقت | Beauty Salon</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+
 :root{
-  --p1:#4b00c8; --p2:#7a1dff; --p3:#c77aff;
-  --mint:#00d5c3; --m-h:#00c5b4;
-  --pill:rgba(0,0,0,.35); --w:#fff;
+  --gradient:linear-gradient(180deg,#5a00e6 0%,#8a2bff 40%,#c77aff 75%,#f3cbff 100%);
+  --glass:rgba(255,255,255,.14);
+  --glass-hover:rgba(255,255,255,.22);
+  --card:#fff;
+  --pill:rgba(0,0,0,.35);
+  --mint:#00d5c3;
+  --mint-h:#00c5b4;
 }
 
+/* ===== BASE ===== */
 body{
   font-family:"Tajawal",sans-serif;
+  background:var(--gradient);
   min-height:100vh;
-  display:flex;justify-content:center;
-  padding:28px 16px 40px;
-  background:linear-gradient(150deg,var(--p1),var(--p2) 50%,var(--p3));
-  animation:fIn .7s ease;
-  color:var(--w);
+  padding:20px 16px 90px;
+  color:#fff;
+  animation:fade .6s ease;
+  overflow-x:hidden;
 }
-@keyframes fIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-
-@media(min-width:850px){
-  body{padding-top:60px;}
-  .screen{margin-right:auto;margin-left:auto;}
-  .back-btn{right:calc(50% - 215px);}
+@keyframes fade{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
 }
 
-.screen{width:100%;max-width:430px;position:relative;}
+/* ===== SCREEN ===== */
+.screen{
+  width:100%;
+  max-width:420px;
+  margin:auto;
+  text-align:center;
+  position:relative;
+}
 
+/* ===== BACK BUTTON ===== */
 .back-btn{
-  position:absolute;top:14px;right:14px;
-  width:46px;height:46px;border-radius:16px;
-  background:rgba(255,255,255,.18);
+  position:fixed;
+  top:26px;
+  right:26px;
+  width:40px;height:40px;
+  border-radius:50%;
+  border:none;
   display:flex;align-items:center;justify-content:center;
-  border:none;color:#fff;font-size:20px;
-  cursor:pointer;transition:.25s;
-  box-shadow:0 12px 30px rgba(0,0,0,.28);
-  backdrop-filter:blur(12px);
+  background:var(--glass);
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+  backdrop-filter:blur(8px);
+  box-shadow:0 4px 12px rgba(0,0,0,.25);
+  transition:.25s;
+  z-index:10;
 }
-.back-btn:hover{background:rgba(255,255,255,.28);transform:translateY(-2px);}
+.back-btn:hover{background:var(--glass-hover);transform:translateY(-2px);}
 
-.header{text-align:center;margin:70px 0 16px;}
-.logo-icon{
-  width:54px;height:54px;margin:auto;
-  background:rgba(255,255,255,.14);
-  border-radius:20px;
-  display:flex;align-items:center;justify-content:center;
-  animation:pop .55s ease;
-  box-shadow:0 12px 30px rgba(0,0,0,.25);
+/* ===== ⭐ الشعار (بعد رفع BEAUTY حسب رغبتك) ===== */
+.logo-block{
+  text-align:center;
+  margin-top:60px;
+  animation:fadeDown .7s ease;
 }
-@keyframes pop{from{opacity:0;transform:scale(.7);}to{opacity:1;transform:scale(1);}}
-.logo-icon svg{width:26px;height:26px;fill:#fff;}
-.logo-title{font-size:22px;font-weight:800;margin-top:6px;}
-.logo-sub{font-size:11px;opacity:.7;letter-spacing:4px;margin-top:-2px;}
 
-.step-title{text-align:center;margin-bottom:14px;}
-.step-title h2{font-size:23px;font-weight:800;margin-bottom:4px;}
-.step-title p{opacity:.85;font-size:14px;}
+.logo-icon svg{
+  width:68px;height:68px;fill:#fff;
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,.18));
+  transition:.3s;
+}
 
+.title{
+  font-size:30px;
+  font-weight:800;
+  margin-top:6px;
+}
+
+/* ← هنا تم تنفيذ خيارك (رفع كلمة BEAUTY للأعلى) */
+.sub{
+  font-size:13px;
+  opacity:.85;
+  letter-spacing:3px;
+  margin-top:-8px;   /* ← التعديل الذي طلبتيه (الخيار 2) */
+}
+
+@keyframes fadeDown{
+  from{opacity:0;transform:translateY(-20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ===== HEADER ===== */
+.step-title h2{font-size:22px;font-weight:800;margin-bottom:4px;}
+.step-title p{font-size:14px;opacity:.9;margin-bottom:18px;}
+
+/* ===== CALENDAR CARD ===== */
 .calendar-card{
-  background:#fff;color:#1b1360;
-  border-radius:26px;padding:20px;margin-top:8px;
-  box-shadow:0 18px 42px rgba(0,0,0,.28);
+  background:var(--card);
+  color:#1b1360;
+  border-radius:24px;
+  padding:18px;
+  width:92%;
+  margin:auto;
+  box-shadow:0 10px 28px rgba(0,0,0,.25);
 }
+
 .cal-header{
   display:flex;justify-content:space-between;align-items:center;
-  font-size:17px;font-weight:700;margin-bottom:12px;
+  font-size:16px;font-weight:700;
 }
+
 .cal-nav-btn{
-  background:none;border:none;color:#5a4ab5;
-  font-size:22px;cursor:pointer;transition:.2s;
+  background:none;border:none;
+  font-size:20px;color:#5a00e6;
+  cursor:pointer;transition:.25s;
 }
 .cal-nav-btn:hover{transform:scale(1.15);}
 
 .cal-grid{
   display:grid;grid-template-columns:repeat(7,1fr);
-  text-align:center;font-size:13px;gap:4px;
+  gap:4px;margin-top:10px;text-align:center;font-size:12px;
 }
-.cal-day-name{opacity:.75;font-weight:600;padding:5px 0;}
+.cal-day-name{opacity:.6;font-weight:600;padding:4px 0;}
 .cal-day{
-  padding:8px 0;border-radius:50%;cursor:pointer;transition:.2s;
+  padding:7px 0;border-radius:50%;cursor:pointer;transition:.2s;
 }
-.cal-day:hover{background:#ece6ff;}
+.cal-day:hover{background:#eee3ff;}
 .cal-day.selected{
-  background:var(--p2);color:#fff;
-  transform:scale(1.1);
-  box-shadow:0 6px 15px rgba(122,29,255,.45);
+  background:#8a2bff;color:#fff;
+  transform:scale(1.08);
+  box-shadow:0 6px 14px rgba(122,29,255,.45);
 }
 
-.times-section{text-align:center;margin-top:22px;}
-.times-section h3{font-size:17px;margin-bottom:12px;}
+/* ===== TIMES ===== */
+.times-section{margin-top:22px;}
+.times-section h3{font-size:17px;margin-bottom:10px;}
+
 .times-grid{
-  display:flex;flex-wrap:wrap;justify-content:center;gap:12px;
+  display:flex;flex-wrap:wrap;gap:10px;
+  justify-content:center;
 }
 
 .time-pill{
-  padding:10px 18px;border-radius:999px;
-  background:var(--pill);color:#fff;
-  border:none;cursor:pointer;transition:.25s;
-  box-shadow:0 12px 26px rgba(0,0,0,.32);
+  padding:8px 18px;border-radius:999px;
+  background:var(--pill);color:#fff;border:none;
+  cursor:pointer;transition:.25s;font-size:14px;
 }
-.time-pill:hover{transform:translateY(-2px);background:rgba(255,255,255,.22);}
+.time-pill:hover{background:var(--glass-hover);transform:translateY(-2px);}
 .time-pill.selected{
-  background:var(--p2);
-  transform:translateY(-2px) scale(1.06);
-  box-shadow:0 16px 32px rgba(0,0,0,.40);
+  background:#8a2bff;
+  transform:translateY(-2px) scale(1.05);
 }
-.time-pill.disabled{
-  opacity:.30;cursor:not-allowed;
-  box-shadow:none;transform:none !important;
-}
+.time-pill.disabled{opacity:.3;cursor:not-allowed;}
 
+/* ===== CONFIRM BUTTON ===== */
 .confirm-btn{
-  width:100%;padding:15px;border-radius:999px;
-  border:none;margin:28px 0 12px;
-  font-size:17px;font-weight:800;
+  width:92%;padding:14px;border-radius:999px;
   background:var(--mint);color:#003c3a;
-  opacity:.40;cursor:not-allowed;transition:.25s;
+  font-size:17px;font-weight:800;
+  margin:26px auto 0;
+  opacity:.4;cursor:not-allowed;border:none;
+  transition:.25s;
 }
 .confirm-btn.ready{
   opacity:1;cursor:pointer;
-  box-shadow:0 16px 32px rgba(0,0,0,.38);
+  box-shadow:0 10px 22px rgba(0,0,0,.25);
 }
-.confirm-btn.ready:hover{background:var(--m-h);transform:translateY(-1px);}
-
-.bottom-back{text-align:center;opacity:.9;font-size:14px;cursor:pointer;margin-top:4px;}
+.confirm-btn.ready:hover{
+  background:var(--mint-h);
+  transform:translateY(-2px);
+}
 </style>
 </head>
 
 <body>
+
+<button class="back-btn" onclick="window.location.href='/accounts/services/'">←</button>
+
 <div class="screen">
 
-<button class="back-btn" onclick="history.back()">←</button>
-
-<div class="header">
-  <div class="logo-icon">
-    <svg viewBox="0 0 64 64"><path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z"/></svg>
+  <!-- ⭐ الشعار بعد رفع BEAUTY ⭐ -->
+  <div class="logo-block">
+    <div class="logo-icon">
+      <svg viewBox="0 0 64 64">
+        <path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z"/>
+      </svg>
+    </div>
+    <div class="title">Beauty Salon</div>
+    <div class="sub">BEAUTY</div>
   </div>
-  <div class="logo-title">Beauty Salon</div>
-  <div class="logo-sub">BEAUTY</div>
+
+  <div class="step-title">
+    <h2>           </h2> 
+    <p>اختاري التاريخ والوقت المناسب</p>
+  </div>
+
+  <form method="POST" action="{% url 'bookings:customer_info' %}">
+    {% csrf_token %}
+
+    <div class="calendar-card">
+      <div class="cal-header">
+        <button type="button" class="cal-nav-btn" onclick="prevMonth()">‹</button>
+        <span id="monthLabel">—</span>
+        <button type="button" class="cal-nav-btn" onclick="nextMonth()">›</button>
+      </div>
+      <div class="cal-grid" id="calendarGrid"></div>
+    </div>
+
+    <div class="times-section">
+      <h3>الأوقات المتاحة</h3>
+      <div class="times-grid" id="timesGrid">
+        {% for t in available_times %}
+          <button type="button" class="time-pill">{{ t }}</button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <input type="hidden" name="selected_date" id="selectedDateInput">
+    <input type="hidden" name="selected_time" id="selectedTimeInput">
+
+    <button class="confirm-btn" id="confirmBtn" disabled>تأكيد الحجز</button>
+  </form>
+
 </div>
 
-<div class="step-title">
-  <h2>اختيار التاريخ والوقت</h2>
-  <p>اختاري التاريخ والوقت المناسبين لحجز الموعد</p>
-</div>
-
-<form method="POST" action="{% url 'bookings:customer_info' %}">
-  {% csrf_token %}
-
-  <!-- التقويم -->
-  <div class="calendar-card">
-    <div class="cal-header">
-      <button type="button" class="cal-nav-btn" onclick="prevMonth()">‹</button>
-      <span id="monthLabel">—</span>
-      <button type="button" class="cal-nav-btn" onclick="nextMonth()">›</button>
-    </div>
-    <div class="cal-grid" id="calendarGrid"></div>
-  </div>
-
-  <!-- الأوقات -->
-  <div class="times-section">
-    <h3>الأوقات المتاحة</h3>
-    <div class="times-grid" id="timesGrid">
-      {% for t in available_times %}
-      <button type="button" class="time-pill">{{ t }}</button>
-      {% endfor %}
-    </div>
-  </div>
-
-  <input type="hidden" name="selected_date" id="selectedDateInput">
-  <input type="hidden" name="selected_time" id="selectedTimeInput">
-
-  <button class="confirm-btn" id="confirmBtn" disabled>تأكيد الحجز</button>
-</form>
-
-<div class="bottom-back" onclick="history.back()">← رجوع</div>
-
+<div class="waves">
+  <svg viewBox="0 0 1440 320">
+    <path fill="#ffffff" fill-opacity="0.33"
+      d="M0,128L80,144C160,160,320,192,480,176C640,160,800,96,960,74.7C1120,53,1280,75,1360,85.3L1440,96V320H0Z">
+    </path>
+  </svg>
 </div>
 
 <script>
-// ========== التقويم ==========
 let current = new Date();
-let selectedDateIso = null;
+let selectedDate = null;
 let selectedTime = null;
 
-const grid = document.getElementById("calendarGrid");
+const grid       = document.getElementById("calendarGrid");
 const monthLabel = document.getElementById("monthLabel");
 const confirmBtn = document.getElementById("confirmBtn");
-const timesButtons = document.querySelectorAll(".time-pill");
+const dateInput  = document.getElementById("selectedDateInput");
+const timeInput  = document.getElementById("selectedTimeInput");
 
-const bookedSlots = {
-  // أمثلة لأيام محجوزة (تقدرين تغيرينها)
-  // "2025-12-06": ["٩:٣٠ ص","١١:٠٠ ص"],
-};
-
-function renderCalendar(){
+/* ===== CALENDAR RENDER ===== */
+function renderCal(){
   grid.innerHTML = "";
+
   const y = current.getFullYear();
   const m = current.getMonth();
-  monthLabel.textContent = current.toLocaleString("ar", { month:"long", year:"numeric" });
+
+  monthLabel.textContent = current.toLocaleString("ar",{month:"long",year:"numeric"});
 
   const first = new Date(y,m,1).getDay();
-  const days = new Date(y,m+1,0).getDate();
+  const days  = new Date(y,m+1,0).getDate();
 
   const names = ["أحد","إثن","ثلث","أربع","خميس","جمعة","سبت"];
-  names.forEach(n => {
-    const el = document.createElement("div");
-    el.className = "cal-day-name";
-    el.textContent = n;
+  names.forEach(n=>{
+    const el=document.createElement("div");
+    el.className="cal-day-name";
+    el.textContent=n;
     grid.appendChild(el);
   });
 
   for(let i=0;i<first;i++){
-    const empty = document.createElement("div");
+    const empty=document.createElement("div");
     grid.appendChild(empty);
   }
 
   for(let d=1; d<=days; d++){
-    const el = document.createElement("div");
-    el.className = "cal-day";
-    el.textContent = d;
+    const el=document.createElement("div");
+    el.className="cal-day";
+    el.textContent=d;
 
-    el.onclick = () => {
+    el.onclick=()=>{
       document.querySelectorAll(".cal-day").forEach(x=>x.classList.remove("selected"));
       el.classList.add("selected");
-      const monthNum = String(m+1).padStart(2,"0");
-      const dayNum = String(d).padStart(2,"0");
-      selectedDateIso = `${y}-${monthNum}-${dayNum}`;
-      document.getElementById("selectedDateInput").value = selectedDateIso;
-      updateTimesForDate();
+      selectedDate = `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+      dateInput.value = selectedDate;
       checkReady();
     };
 
     grid.appendChild(el);
   }
 }
+renderCal();
 
-function prevMonth(){ current.setMonth(current.getMonth()-1); renderCalendar(); selectedDateIso=null; resetTimes(); checkReady(); }
-function nextMonth(){ current.setMonth(current.getMonth()+1); renderCalendar(); selectedDateIso=null; resetTimes(); checkReady(); }
+function prevMonth(){ current.setMonth(current.getMonth()-1); renderCal(); }
+function nextMonth(){ current.setMonth(current.getMonth()+1); renderCal(); }
 
-renderCalendar();
-
-// ========== الأوقات ==========
-function resetTimes(){
-  timesButtons.forEach(btn=>{
-    btn.classList.remove("selected","disabled");
-    btn.disabled = false;
-  });
-  selectedTime = null;
-  document.getElementById("selectedTimeInput").value = "";
-}
-
-function updateTimesForDate(){
-  resetTimes();
-  if (!selectedDateIso) return;
-
-  const booked = bookedSlots[selectedDateIso] || [];
-  timesButtons.forEach(btn=>{
-    const label = btn.textContent.trim();
-    if (booked.includes(label)){
-      btn.classList.add("disabled");
-      btn.disabled = true;
-    }
-  });
-}
-
-timesButtons.forEach(btn=>{
-  btn.onclick = () => {
-    if (btn.classList.contains("disabled")) return;
-    timesButtons.forEach(t=>t.classList.remove("selected"));
+document.querySelectorAll(".time-pill").forEach(btn=>{
+  btn.onclick=()=>{
+    if(btn.classList.contains("disabled")) return;
+    document.querySelectorAll(".time-pill").forEach(b=>b.classList.remove("selected"));
     btn.classList.add("selected");
     selectedTime = btn.textContent.trim();
-    document.getElementById("selectedTimeInput").value = selectedTime;
+    timeInput.value = selectedTime;
     checkReady();
-  }
+  };
 });
 
-// ========== تفعيل زر التأكيد ==========
 function checkReady(){
-  if (selectedDateIso && selectedTime){
-    confirmBtn.disabled = false;
+  if(selectedDate && selectedTime){
+    confirmBtn.disabled=false;
     confirmBtn.classList.add("ready");
   }else{
-    confirmBtn.disabled = true;
+    confirmBtn.disabled=true;
     confirmBtn.classList.remove("ready");
   }
 }

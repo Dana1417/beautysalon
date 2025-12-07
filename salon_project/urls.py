@@ -21,7 +21,7 @@ urlpatterns = [
     path('schedule/', include('scheduling.urls')),
 
     # ================================
-    # 📅 Bookings
+    # 📅 Bookings System (الخَط الذي يربط صفحة التاريخ والوقت)
     # ================================
     path('bookings/', include('bookings.urls')),
 
@@ -31,34 +31,37 @@ urlpatterns = [
     path('billing/', include('billing.urls')),
 
     # ================================
-    # 🔔 Notifications Center
+    # 🔔 Notifications
     # ================================
     path('notifications/', include('notifications_center.urls')),
 
     # ================================
     # 🧑‍💼 Client Portal (Home Page)
     # ================================
-    path('', include('portal_client.urls')),   # هذا يجعل home.html تفتح للمستخدم
+    path('', include('portal_client.urls')),   # الصفحة الرئيسية للعملاء
 
     # ================================
-    # 🛠 Control Panel Dashboard
+    # 🛠 Admin Dashboard
     # ================================
     path('dashboard/', include('control_panel.urls')),
 
-
     # ================================
-    # 🧰 Django Admin
+    # 🧰 Django Admin Panel
     # ================================
     path('admin/', admin.site.urls),
 ]
 
 
 # ============================================
-# 📦 Static & Media Files (Development mode)
+# 📦 Static & Media Files (Development Mode)
 # ============================================
 if settings.DEBUG:
-    # تحميل الملفات من مجلد media
+
+    # Media files
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-    # تحميل الملفات من مجلد static (داخل مجلد المشروع)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+    # Static files
+    if hasattr(settings, "STATICFILES_DIRS") and settings.STATICFILES_DIRS:
+        urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+    else:
+        urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
