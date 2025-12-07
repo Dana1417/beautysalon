@@ -1,0 +1,259 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مواعيدي | Beauty Salon</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --purple-dark:#4b00c8;
+    --purple-mid:#7a1dff;
+    --purple-light:#c77aff;
+    --mint:#00d5c3;
+}
+
+/* PAGE */
+body{
+    font-family:"Tajawal",sans-serif;
+    min-height:100vh;
+    background:linear-gradient(145deg,var(--purple-dark),var(--purple-mid),var(--purple-light));
+    color:#fff;
+    text-align:center;
+    overflow-x:hidden;
+    animation:fadePage .7s ease forwards;
+}
+
+/* Animations */
+@keyframes fadePage{
+    from{opacity:0; transform:translateY(25px);}
+    to{opacity:1; transform:translateY(0);}
+}
+@keyframes fadeUp{
+    from{opacity:0; transform:translateY(14px);}
+    to{opacity:1; transform:translateY(0);}
+}
+@keyframes fadeBtn{
+    from{opacity:0; transform:translateY(-10px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* زر الرجوع (دائرة مثل شاشة التحقق) */
+.back-btn{
+    position:absolute;
+    top:28px;
+    right:26px;
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.18);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(255,255,255,0.25);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 10px 26px rgba(0,0,0,.22);
+    transition:.25s ease;
+    animation:fadeBtn .9s ease forwards;
+}
+.back-btn:hover{
+    transform:scale(1.08);
+}
+.back-btn svg{
+    width:22px;
+    height:22px;
+    stroke:#fff;
+    stroke-width:2.5;
+    fill:none;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+/* الشعار */
+.logo-icon{
+    width:92px;
+    height:92px;
+    margin:105px auto 16px;
+    background:rgba(255,255,255,.16);
+    border-radius:26px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 22px 36px rgba(0,0,0,.28);
+    animation:fadeUp .9s ease forwards;
+}
+.logo-icon svg{
+    width:44px;
+    height:44px;
+    fill:#fff;
+}
+.logo-title{
+    font-size:30px;
+    font-weight:800;
+    animation:fadeUp .9s ease .1s forwards;
+    opacity:0;
+}
+.logo-sub{
+    font-size:12px;
+    letter-spacing:5px;
+    opacity:.84;
+    margin-bottom:28px;
+    animation:fadeUp .9s ease .2s forwards;
+    opacity:0;
+}
+
+/* العنوان */
+h1{
+    font-size:32px;
+    font-weight:800;
+    animation:fadeUp .9s ease .3s forwards;
+    opacity:0;
+}
+
+/* البطاقة الاحترافية */
+.card{
+    width:88%;
+    max-width:420px;
+    margin:30px auto 0;
+    padding:24px 22px 26px;
+    background:rgba(255,255,255,0.97);
+    border-radius:30px;
+    box-shadow:0 16px 30px rgba(0,0,0,.22);
+    text-align:right;
+    animation:fadeUp .9s ease .4s forwards;
+    opacity:0;
+}
+
+/* رأس البطاقة */
+.card-header{
+    margin-bottom:14px;
+}
+.service-title{
+    font-size:20px;
+    font-weight:800;
+    color:#222;
+    margin-bottom:4px;
+}
+.service-sub{
+    font-size:14px;
+    color:#777;
+}
+
+/* بلوكات المعلومات */
+.meta-row{
+    display:flex;
+    gap:10px;
+    margin-top:12px;
+}
+.meta-block{
+    flex:1;
+    background:rgba(248,248,255,.95);
+    border-radius:18px;
+    padding:10px 12px;
+}
+.meta-label{
+    font-size:12px;
+    color:#888;
+    margin-bottom:4px;
+}
+.meta-value{
+    font-size:15px;
+    color:#222;
+}
+
+/* رقم الموعد بشكل منفصل */
+.meta-full{
+    margin-top:12px;
+}
+
+/* زر تعديل الموعد */
+.mint-btn{
+    background:var(--mint);
+    color:#fff;
+    padding:12px 30px;
+    border-radius:40px;
+    border:none;
+    font-size:16px;
+    font-weight:700;
+    display:block;
+    margin-left:auto;
+    margin-top:20px;
+    cursor:pointer;
+    box-shadow:0 10px 22px rgba(0,0,0,.18);
+    transition:.2s ease;
+}
+.mint-btn:hover{
+    transform:translateY(-3px);
+}
+</style>
+</head>
+
+<body>
+
+<!-- زر الرجوع -->
+<a href="{% url 'bookings:select_service' %}" class="back-btn">
+    <svg viewBox="0 0 24 24">
+        <path d="M14 6l-6 6 6 6"/>
+    </svg>
+</a>
+
+<!-- الشعار -->
+<div class="logo-icon">
+    <svg viewBox="0 0 64 64">
+        <path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z"/>
+    </svg>
+</div>
+
+<div class="logo-title">Beauty Salon</div>
+<div class="logo-sub">BEAUTY</div>
+
+<h1>مواعيدي</h1>
+
+<!-- بطاقة الموعد الاحترافية -->
+<div class="card">
+
+    <div class="card-header">
+        <div class="service-title">
+            {{ service.name }}
+        </div>
+        <div class="service-sub">
+            {% if staff %}
+                مع {{ staff.name }}
+            {% else %}
+                بدون اختيار موظفة
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="meta-row">
+        <div class="meta-block">
+            <div class="meta-label">التاريخ</div>
+            <div class="meta-value">{{ date }}</div>
+        </div>
+        <div class="meta-block">
+            <div class="meta-label">الوقت</div>
+            <div class="meta-value">{{ time }}</div>
+        </div>
+    </div>
+
+    <div class="meta-block meta-full">
+        <div class="meta-label">رقم الموعد</div>
+        <div class="meta-value">{{ booking_id }}</div>
+    </div>
+
+    <button class="mint-btn">تعديل الموعد</button>
+</div>
+
+</body>
+</html>

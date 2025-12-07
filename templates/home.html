@@ -1,0 +1,833 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية | Beauty Salon</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        html, body{
+            width:100%;
+            max-width:100%;
+            overflow-x:clip !important;
+            overscroll-behavior-x:none;
+            position:relative;
+        }
+
+        :root{
+            --purple-dark:#6a11cb;
+            --purple-mid:#8a2bff;
+            --purple-light:#f3daff;
+            --mint:#00d5c3;
+            --text-main:#1a1440;
+        }
+
+        body{
+            font-family:"Tajawal",sans-serif;
+            background:var(--purple-light);
+            min-height:100vh;
+            transition:opacity .3s ease;
+        }
+
+        body.loading{
+            overflow:hidden !important;
+            overflow-x:clip !important;
+            height:100vh;
+            touch-action:none;
+            overscroll-behavior:none;
+        }
+
+        .wave{
+            position:absolute;
+            border-radius:50%;
+            filter:blur(85px);
+            mix-blend-mode:screen;
+            opacity:.58;
+            animation:float 12s ease-in-out infinite alternate;
+            pointer-events:none;
+            max-width:100vw;
+        }
+        @keyframes float{
+            0%{transform:translateY(0) scale(1);}
+            100%{transform:translateY(30px) scale(1.08);}
+        }
+        .wave-1{
+            width:480px;height:480px;
+            background:radial-gradient(circle,#b782ff 0%,transparent 74%);
+            top:-160px;right:8%;
+        }
+        .wave-2{
+            width:420px;height:420px;
+            background:radial-gradient(circle,#7dffe9 0%,transparent 70%);
+            top:40px;left:10%;
+            animation-delay:.6s;
+        }
+        .wave-3{
+            width:360px;height:360px;
+            background:radial-gradient(circle,#d393ff 0%,transparent 70%);
+            bottom:-140px;right:22%;
+            animation-delay:1s;
+        }
+
+        .hero-wrapper{
+            max-width:1200px;
+            margin:50px auto;
+            padding:0 20px 40px;
+            position:relative;
+        }
+
+        .hero-box{
+            background:linear-gradient(180deg,#6a11cb,#8a2bff 58%,#ebd8ff);
+            border-radius:36px;
+            padding:32px;
+            position:relative;
+            color:white;
+            overflow:hidden;
+            box-shadow:0 28px 60px rgba(0,0,0,.25);
+            animation:fadeSoft 1s ease;
+        }
+        @keyframes fadeSoft{
+            0%{opacity:0;transform:translateY(20px);}
+            100%{opacity:1;transform:translateY(0);}
+        }
+
+        .hero-box::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            background:radial-gradient(circle at 18% 10%,rgba(255,255,255,.22),transparent 65%);
+            mix-blend-mode:screen;
+        }
+
+        .nav-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            background:rgba(255,255,255,.14);
+            backdrop-filter:blur(18px);
+            padding:14px 26px;
+            border-radius:20px;
+            margin-bottom:30px;
+            box-shadow:0 10px 30px rgba(0,0,0,.14);
+        }
+
+        .nav-left{display:flex;align-items:center;gap:26px;}
+
+        .logo-block{text-align:center;color:#fff;}
+        .logo-block svg{
+            width:42px;height:42px;fill:#fff;
+            filter:drop-shadow(0 4px 12px rgba(0,0,0,.25));
+        }
+        .logo-title{font-size:18px;font-weight:800;margin-top:4px;}
+        .logo-sub{font-size:10px;opacity:.85;letter-spacing:3px;margin-top:-2px;}
+
+        .nav-links{
+            display:flex;
+            gap:18px;
+        }
+
+        .nav-links a{
+            position:relative;
+            color:#ffffff;
+            text-decoration:none;
+            font-size:14px;
+            opacity:.9;
+            padding:6px 14px;
+            border-radius:999px;
+            transition:.25s ease;
+            white-space:nowrap;
+        }
+
+        .nav-links a::after{
+            content:"";
+            position:absolute;
+            inset:0;
+            border-radius:999px;
+            background:rgba(255,255,255,.12);
+            opacity:0;
+            transform:scale(.9);
+            transition:.25s ease;
+            z-index:-1;
+        }
+
+        .nav-links a:hover{
+            opacity:1;
+            transform:translateY(-1px);
+        }
+
+        .nav-links a:hover::after{
+            opacity:1;
+            transform:scale(1);
+        }
+
+        /* الرابط النشط (الصفحة الحالية) */
+        .nav-links a.active-link{
+            opacity:1;
+            font-weight:700;
+        }
+        .nav-links a.active-link::after{
+            opacity:1;
+            transform:scale(1);
+        }
+
+        .btn-nav{
+            background:var(--mint);
+            color:var(--text-main);
+            padding:10px 26px;
+            border-radius:999px;
+            font-weight:700;
+            text-decoration:none;
+            box-shadow:0 12px 26px rgba(0,0,0,.2);
+            transition:.3s;
+            white-space:nowrap;
+        }
+
+        .btn-nav:hover{transform:translateY(-3px);}
+
+        .hero-grid{
+            display:grid;
+            grid-template-columns:1.1fr 1fr;
+            gap:28px;
+            align-items:center;
+        }
+
+        .hero-title{
+            font-size:44px;
+            font-weight:800;
+            line-height:1.3;
+            margin-bottom:14px;
+            animation:titleFade 1.2s ease forwards;
+            opacity:0;
+            animation-delay:.2s;
+        }
+
+        @keyframes titleFade{
+            from{opacity:0;transform:translateY(22px);}
+            to{opacity:1;transform:translateY(0);}
+        }
+
+        .hero-title span{
+            background:linear-gradient(90deg,#7dffe9,#ff48f5);
+            background-clip:text;
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+        }
+
+        .hero-text{
+            font-size:16px;
+            max-width:420px;
+            opacity:.95;
+            line-height:1.9;
+            margin-bottom:26px;
+            animation:fadeSoft 1.3s ease;
+        }
+
+        .price-card{
+            background:#fff;
+            color:var(--text-main);
+            border-radius:28px;
+            padding:26px;
+            max-width:320px;
+            box-shadow:0 16px 40px rgba(0,0,0,.12);
+            opacity:0;
+            animation:fadeCard .9s ease forwards;
+            animation-delay:.45s;
+        }
+
+        @keyframes fadeCard{
+            from{opacity:0;transform:translateY(25px);}
+            to{opacity:1;transform:translateY(0);}
+        }
+
+        .btn-hero{
+            display:block;width:100%;
+            padding:12px 0;margin-top:14px;
+            background:#2b0084;
+            color:white;
+            font-weight:700;
+            border-radius:999px;
+            text-decoration:none;
+            box-shadow:0 14px 30px rgba(0,0,0,.22);
+            transition:.3s;
+        }
+
+        .btn-hero:hover{transform:translateY(-3px);}
+
+        .hero-image-box{position:relative;}
+
+        .hero-image{
+            width:100%;
+            border-radius:40px;
+            box-shadow:0 28px 60px rgba(0,0,0,.35);
+            opacity:0;
+            animation:imageFade 1.2s ease forwards;
+            animation-delay:.4s;
+        }
+
+        @keyframes imageFade{
+            from{opacity:0;transform:translateY(30px);}
+            to{opacity:1;transform:translateY(0);}
+        }
+
+        .float-card{
+            position:absolute;
+            bottom:12%;
+            right:8%;
+            background:#fff;
+            padding:12px 20px;
+            border-radius:18px;
+            font-size:14px;
+            box-shadow:0 14px 30px rgba(0,0,0,.22);
+            color:var(--text-main);
+        }
+
+        .lower{
+            background:#fff;
+            padding:40px 30px;
+            border-radius:0 0 36px 36px;
+            margin-top:30px;
+        }
+
+        .section-title{font-size:22px;font-weight:800;margin-bottom:14px;}
+        .section-text{color:#6a6a9a;max-width:500px;line-height:1.9;}
+
+        .promo-card{
+            background:linear-gradient(140deg,#7a2dff,#b13cff,#ff9cff);
+            border-radius:30px;
+            padding:30px;
+            margin:30px 0;
+            text-align:center;
+            color:#fff;
+            box-shadow:0 16px 40px rgba(0,0,0,.15);
+        }
+
+        .promo-card button{
+            margin-top:10px;padding:10px 26px;
+            border:none;border-radius:999px;
+            cursor:pointer;background:#fff;
+            font-weight:700;color:#2b0084;
+            transition:.3s;
+        }
+
+        .promo-card button:hover{transform:translateY(-3px);}
+
+        /* ======================================================
+              ⭐⭐⭐ بطاقات التقييم ⭐⭐⭐
+        ====================================================== */
+
+        .testimonials-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:22px;
+        }
+
+        .testimonial-card{
+            background:#fff;
+            padding:20px;
+            border-radius:22px;
+            font-size:15px;
+            box-shadow:0 14px 30px rgba(0,0,0,.1);
+            transition:.3s;
+        }
+
+        .testimonial-card p{
+            color:#444;
+        }
+
+        .testimonial-card:hover{
+            transform:translateY(-4px);
+            box-shadow:0 20px 40px rgba(0,0,0,.16);
+        }
+
+        .testimonial-header{
+            display:flex;
+            align-items:flex-start;
+            gap:12px;
+            margin-bottom:10px;
+        }
+
+        .testimonial-header strong{
+            font-size:16px;
+            font-weight:700;
+            color:#1a1440;
+            margin-bottom:2px;
+        }
+
+        .testimonial-header svg{
+            width:36px;
+            height:36px;
+            flex-shrink:0;
+        }
+
+        .stars{
+            color:gold;
+            font-size:14px;
+        }
+
+        /* ==========================================================
+           ⭐ FOOTER (الشكل النهائي مع نفس الشعار) ⭐
+        ========================================================== */
+
+        .footer{
+            margin-top:90px;
+            background:linear-gradient(135deg,#f7ecff 0%,#e7cffd 50%,#ddb7ff 100%);
+            padding:60px 24px 32px;
+            border-radius:32px;
+            box-shadow:0 20px 45px rgba(0,0,0,.10);
+            position:relative;
+            overflow:hidden;
+        }
+
+        .footer::before{
+            content:"";
+            position:absolute;
+            inset:-40%;
+            background:radial-gradient(circle at top,#ffffff70,transparent 60%);
+            opacity:.9;
+            pointer-events:none;
+        }
+
+        .footer-inner{
+            max-width:1050px;
+            margin:0 auto;
+            position:relative;
+            z-index:1;
+            text-align:center;
+        }
+
+        .footer-logo svg{
+            width:60px;
+            height:60px;
+            margin-bottom:12px;
+            filter:drop-shadow(0 6px 16px rgba(0,0,0,.18));
+        }
+
+        .footer-logo h3{
+            font-size:20px;
+            margin:0;
+            color:#1a1440;
+            font-weight:700;
+        }
+
+        .footer-logo span{
+            font-size:13px;
+            letter-spacing:2px;
+            color:#1a1440b0;
+        }
+
+        .footer-sections{
+            display:flex;
+            justify-content:center;
+            gap:80px;
+            margin-top:40px;
+            flex-wrap:wrap;
+            text-align:center;
+        }
+
+        .footer-section h4{
+            font-size:15px;
+            margin-bottom:15px;
+            color:#1a1440;
+            font-weight:700;
+        }
+
+        .footer-section a,
+        .footer-section p{
+            display:block;
+            font-size:14px;
+            color:#1a1440c9;
+            margin:6px 0;
+            text-decoration:none;
+        }
+
+        .footer-section a:hover{
+            color:#7a1dff;
+            transition:.25s ease;
+        }
+
+        .footer-bottom{
+            margin-top:45px;
+            font-size:13px;
+            color:#1a1440a4;
+        }
+
+        /* ====================================================== */
+
+        .loader-overlay{
+            position:fixed;
+            inset:0;
+            width:100%;
+            height:100%;
+            background:rgba(5,0,40,.45);
+            backdrop-filter:blur(6px);
+            display:none;
+            align-items:center;
+            justify-content:center;
+            z-index:9999;
+        }
+
+        .loader-overlay.active{display:flex;}
+
+        .loader-petals{
+            width:110px;
+            height:110px;
+            position:relative;
+            animation:logoSpinPulse .9s ease-in-out infinite;
+        }
+
+        .loader-petals .petal{
+            position:absolute;
+            width:48px;
+            height:72px;
+            border-radius:999px 999px 999px 0;
+            opacity:0;
+            transform-origin:50% 60%;
+            --dx:0px;
+            --dy:0px;
+            animation:petalAssemble .9s ease-in-out infinite;
+        }
+
+        .petal-top{
+            top:6px;left:50%;
+            transform:translateX(-50%) rotate(0deg);
+            --dx:0px;
+            --dy:-30px;
+            background:linear-gradient(145deg,#d393ff,#8a2bff);
+        }
+
+        .petal-bottom{
+            bottom:6px;left:50%;
+            transform:translateX(-50%) rotate(180deg);
+            --dx:0px;
+            --dy:30px;
+            background:linear-gradient(145deg,#6a11cb,#d393ff);
+        }
+
+        .petal-left{
+            left:6px;top:50%;
+            transform:translateY(-50%) rotate(-90deg);
+            --dx:-30px;
+            --dy:0px;
+            background:linear-gradient(145deg,#8a2bff,#7dffe9);
+        }
+
+        .petal-right{
+            right:6px;top:50%;
+            transform:translateY(-50%) rotate(90deg);
+            --dx:30px;
+            --dy:0px;
+            background:linear-gradient(145deg,#7dffe9,#6a11cb);
+        }
+
+        @keyframes petalAssemble{
+            0%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.85);}
+            20%{opacity:1;transform:translate(var(--dx),var(--dy)) scale(.9);}
+            40%{opacity:1;transform:translate(0,0) scale(1);}
+            100%{opacity:1;transform:translate(0,0) scale(1);}
+        }
+
+        @keyframes logoSpinPulse{
+            0%{transform:rotate(0deg) scale(1);}
+            55%{transform:rotate(8deg) scale(1);}
+            85%{transform:rotate(0deg) scale(1.03);}
+            100%{transform:rotate(0deg) scale(1);}
+        }
+
+        body.dimmed{
+            opacity:.6;
+        }
+
+        @media (max-width:992px){
+            .hero-grid{grid-template-columns:1fr;text-align:center;}
+            .hero-text{margin:0 auto 22px;}
+            .nav-links{display:none;}
+            .hero-image{max-width:350px;margin:auto;}
+            .price-card{margin:auto;}
+            .float-card{right:50%;transform:translateX(50%);}
+            .footer-sections{gap:40px;}
+        }
+        @media (max-width:768px){
+            .hero-wrapper{margin:28px auto;padding:0 14px 32px;}
+            .hero-box{padding:24px 18px 30px;}
+            .hero-title{font-size:33px;}
+            .lower{padding:28px 18px 32px;}
+            .wave{filter:blur(65px);opacity:.45;}
+            .footer{margin-top:70px;padding:46px 18px 26px;}
+        }
+        @media (max-width:480px){
+            .hero-title{font-size:27px;}
+            .promo-card{padding:22px;border-radius:24px;}
+            .footer-sections{gap:26px;}
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- LOADER OVERLAY -->
+<div id="loader-overlay" class="loader-overlay">
+    <div class="loader-petals">
+        <span class="petal petal-top"></span>
+        <span class="petal petal-bottom"></span>
+        <span class="petal petal-left"></span>
+        <span class="petal petal-right"></span>
+    </div>
+</div>
+
+<!-- Waves -->
+<div class="wave wave-1"></div>
+<div class="wave wave-2"></div>
+<div class="wave wave-3"></div>
+
+<div class="hero-wrapper">
+    <div class="hero-box">
+
+        <!-- NAVBAR -->
+        <div class="nav-bar">
+            <div class="nav-left">
+                <div class="logo-block">
+                    <svg viewBox="0 0 64 64">
+                        <path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z"/>
+                    </svg>
+                    <div class="logo-title">Beauty Salon</div>
+                    <div class="logo-sub">BEAUTY</div>
+                </div>
+
+                <div class="nav-links">
+                    <a href="#" class="active-link">الرئيسية</a>
+                    <a href="#services">الخدمات</a>
+                    <a href="#reviews">آراء العميلات</a>
+                    <a href="#contact">تواصل معنا</a>
+                </div>
+            </div>
+
+            <a href="{% url 'accounts:login_page' %}" class="btn-nav loader-trigger">احجزي الآن</a>
+        </div>
+
+        <!-- HERO -->
+        <div class="hero-grid">
+
+            <div>
+                <h1 class="hero-title">
+                    احجزي الآن تسريحة الشعر<br>
+                    <span>التي تناسب جمالك</span>
+                </h1>
+
+                <p class="hero-text">
+                    صالون متخصص في أحدث صيحات الشعر مع فريق من خبراء التجميل لنقدم لك إطلالة فخمة وصحية ومثالية لكل المناسبات.
+                </p>
+
+                <div class="price-card">
+                    <strong style="font-size:24px;">150 ر.س</strong><br>
+                    <span style="color:#6a6a9a;">85 دقيقة</span>
+                    <p style="color:#6a6a9a;margin-top:10px;">
+                        تسريحة شعر احترافية تشمل العناية والترتيب ومنتجات عالية الجودة.
+                    </p>
+                    <a href="{% url 'accounts:login_page' %}" class="btn-hero loader-trigger">احجزي الآن</a>
+                </div>
+            </div>
+
+            <div class="hero-image-box">
+                <img src="{% static 'images/home.png' %}" class="hero-image" alt="تسريحة شعر">
+                <div class="float-card">
+                    <strong>اليوم</strong><br>
+                    مواعيد متاحة الآن
+                </div>
+            </div>
+
+        </div>
+
+        <!-- LOWER SECTION -->
+        <div class="lower">
+
+            <h2 class="section-title" id="services">تسريحة شعر مثالية لكل مناسبة</h2>
+            <p class="section-text"> قدم لكِ باقة متكاملة من خدمات الشعر والمكياج والعناية بالبشرة والأظافر،
+لنضمن لكِ إطلالة متكاملة في مكان واحد. </p>
+
+            <div class="promo-card">
+                <h3>✨ خصم 20% اليوم!</h3>
+                <p>احجزي أول موعد عبر الموقع واحصلي على خصم خاص.</p>
+                <button type="button">اختاري الوقت المناسب</button>
+            </div>
+
+            <div class="testimonials-grid" id="reviews">
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <svg width="42" height="42" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="12" fill="#f3daff"/>
+                            <path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-3 0-8 1.5-8 4v1h16v-1c0-2.5-5-4-8-4z" fill="#8a2bff"/>
+                        </svg>
+                        <div>
+                            <strong>ســارة</strong>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                    <p>“الخدمة راقية جدًا والتسريحة ثابتة طول اليوم! التجربة كانت ممتعة.”</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <svg width="42" height="42" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="12" fill="#e8ccff"/>
+                            <path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-3 0-8 1.5-8 4v1h16v-1c0-2.5-5-4-8-4z" fill="#6a11cb"/>
+                        </svg>
+                        <div>
+                            <strong>خــلود</strong>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                    <p>“وصلت الموعد بدون انتظار! التعامل راقٍ جدًا ويشرحون كل شيء.”</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <svg width="42" height="42" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="12" fill="#ffe4fc"/>
+                            <path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-3 0-8 1.5-8 4v1h16v-1c0-2.5-5-4-8-4z" fill="#ff48f5"/>
+                        </svg>
+                        <div>
+                            <strong>أمــل</strong>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                    <p>“أفضل صالون جربته! شعري صار ناعم ولمّاع بشكل خيالي.”</p>
+                </div>
+
+                <div class="testimonial-card" style="background:linear-gradient(135deg,#8a2bff,#d393ff);color:white;">
+                    <div class="testimonial-header">
+                        <svg width="42" height="42" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="12" fill="#ffffff33"/>
+                            <path d="M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 2c-3 0-8 1.5-8 4v1h16v-1c0-2.5-5-4-8-4z" fill="#ffffff"/>
+                        </svg>
+                        <div>
+                            <strong>حــنان</strong>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                    <p>“الاهتمام بالتفاصيل مختلف… من الأسلوب إلى جودة الشغل. فعلاً صالون راقي.”</p>
+                </div>
+
+            </div>
+
+            <footer class="footer">
+    <div class="footer-inner">
+
+        <div class="footer-logo">
+            <svg viewBox="0 0 64 64">
+                <path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z" fill="#2b0084"/>
+            </svg>
+            <h3>Beauty Salon</h3>
+            <span>BEAUTY</span>
+        </div>
+
+        <div class="footer-sections">
+
+            <div class="footer-section">
+                <h4>روابط سريعة</h4>
+                <a href="#">من نحن</a>
+                <a href="#reviews">آراء العميلات</a>
+                <a href="#services">الخدمات</a>
+                <a href="#contact">تواصل معنا</a>
+            </div>
+
+            <div class="footer-section">
+                <h4>تواصل معنا</h4>
+                <p>الرياض - المملكة العربية السعودية</p>
+                <p>
+                    <svg class="social-icon" style="width:15px;height:15px;fill:#8a2bff;" viewBox="0 0 24 24">
+                        <path d="M6.6 10.8c1.2 2.4 3.1 4.3 5.5 5.5l1.8-1.8c.2-.2.6-.3.9-.2 1 .3 2 .5 3 .5.5 0 .9.4.9.9V20c0 .5-.4.9-.9.9C9.4 20.9 3.1 14.6 3.1 6.9c0-.5.4-.9.9-.9H7c.5 0 .9.4.9.9 0 1 .2 2 .5 3 .1.3 0 .7-.2.9l-1.6 2z"/>
+                    </svg>
+                    0555555555
+                </p>
+
+                <p>
+                    <svg class="social-icon" style="width:15px;height:15px;fill:#8a2bff;" viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 2v.5l-8 5-8-5V6h16zm-16 12V9l8 5 8-5v9H4z"/>
+                    </svg>
+                    info@beautysalon.com
+                </p>
+            </div>
+
+            <div class="footer-section">
+                <h4>تابعينا</h4>
+
+                <!-- انستقرام -->
+                <a href="#">
+                    <svg class="social-icon" style="fill:#8a2bff;width:20px;height:20px;vertical-align:middle;margin-left:6px;" viewBox="0 0 24 24">
+                        <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 7.2A2.7 2.7 0 1 1 14.7 12 2.7 2.7 0 0 1 12 14.7zm4-8.9a1.1 1.1 0 1 1-1.1 1.1 1.1 1.1 0 0 1 1.1-1.1z"/>
+                    </svg>
+                    انستقرام
+                </a>
+
+                <!-- تويتر -->
+                <a href="#">
+                    <svg class="social-icon" style="fill:#8a2bff;width:20px;height:20px;vertical-align:middle;margin-left:6px;" viewBox="0 0 24 24">
+                        <path d="M18 2H6C3.8 2 2 3.8 2 6v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V6c0-2.2-1.8-4-4-4zm-2.2 6.4L12.7 12l3.1 3.6c.4.5-.2 1-.7.7L12 12.9l-3.1 3.4c-.5.4-1.1-.2-.7-.7L11.3 12 8.2 8.4c-.4-.5.2-1.1.7-.7L12 11l3.1-3.3c.5-.4 1.1.2.7.7z"/>
+                    </svg>
+                    تويتر
+                </a>
+
+                <!-- فيسبوك -->
+                <a href="#">
+                    <svg class="social-icon" style="fill:#8a2bff;width:20px;height:20px;vertical-align:middle;margin-left:6px;" viewBox="0 0 24 24">
+                        <path d="M13 3h4V0h-4c-3.3 0-6 2.7-6 6v3H4v4h3v11h4V13h3l1-4h-4V6c0-.6.4-1 1-1z"/>
+                    </svg>
+                    فيسبوك
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            جميع الحقوق محفوظة © 2025 Beauty Salon
+        </div>
+
+    </div>
+</footer>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const loader = document.getElementById('loader-overlay');
+    const triggers = document.querySelectorAll('.loader-trigger');
+
+    triggers.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (!href) return;
+
+            e.preventDefault();
+            document.body.classList.add('dimmed','loading');
+            loader.classList.add('active');
+
+            setTimeout(function () {
+                window.location.href = href;
+            }, 900);
+        });
+    });
+
+    window.addEventListener('pageshow', function () {
+        document.body.classList.remove('dimmed','loading');
+        loader.classList.remove('active');
+    });
+});
+</script>
+
+</body>
+</html>

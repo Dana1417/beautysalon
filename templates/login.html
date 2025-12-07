@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول | Beauty Salon</title>
+
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+
+        :root{
+            --wave-bg:linear-gradient(180deg,#5a00e6,#8a2bff,#c77aff,#f3cbff);
+            --card-bg:rgba(255,255,255,.18);
+            --mint:#00d5c3;
+            --mint-hover:#00c5b4;
+        }
+
+        body{
+            font-family:"Tajawal",sans-serif;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:var(--wave-bg);
+            color:#fff;
+            overflow:hidden;
+            position:relative;
+            padding:20px 0;
+        }
+
+        .waves{
+            position:absolute;bottom:0;width:100%;opacity:.40;z-index:-1;
+        }
+        .waves svg{width:100%;}
+
+        .back-btn{
+            position:absolute;top:18px;right:18px;
+            width:40px;height:40px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            border:none;font-size:18px;color:#fff;
+            background:rgba(255,255,255,.14);backdrop-filter:blur(8px);
+            box-shadow:0 4px 12px rgba(0,0,0,.25);
+            cursor:pointer;transition:.25s;
+        }
+        .back-btn:hover{background:rgba(255,255,255,.22);transform:translateY(-2px);}
+
+        .center-wrapper{
+            width:100%;max-width:440px;
+            text-align:center;
+            display:flex;flex-direction:column;
+            align-items:center;
+            gap:16px;animation:fadeUp .7s ease;
+        }
+
+        .logo-block{margin-bottom:6px;animation:fadeLogo 1s ease;}
+        .logo-icon svg{
+            width:64px;height:64px;fill:#fff;
+            filter:drop-shadow(0 4px 12px rgba(0,0,0,.25));
+        }
+        .logo-title{font-size:32px;font-weight:800;margin-top:10px;}
+        .logo-sub{font-size:13px;letter-spacing:3px;opacity:.85;margin-top:-4px;}
+
+        .login-card{
+            width:100%;padding:32px 26px;
+            background:var(--card-bg);
+            border-radius:26px;
+            backdrop-filter:blur(18px);
+            box-shadow:0 10px 32px rgba(0,0,0,.25);
+            animation:fadeUp 1s ease;
+        }
+
+        h2{font-size:25px;font-weight:800;margin-bottom:8px;}
+        .subtitle{font-size:15px;opacity:.94;margin-bottom:22px;line-height:1.7;}
+
+        .field-wrapper{text-align:right;margin-bottom:18px;}
+        label{font-size:14px;margin-bottom:6px;opacity:.9;display:block;}
+
+        .login-input{
+            width:100%;height:52px;border:none;border-radius:15px;
+            background:#fff;padding:0 16px;font-size:16px;color:#333;
+            box-shadow:0 6px 14px rgba(0,0,0,.09);
+            transition:.25s;
+        }
+        .login-input:focus{
+            border:2px solid var(--mint);
+            box-shadow:0 0 10px rgba(40,217,196,.45);
+        }
+
+        .error-text{font-size:12px;color:#ffdcdc;min-height:16px;margin-top:4px;}
+
+        .btn-submit{
+            width:100%;height:54px;border:none;
+            background:var(--mint);color:#fff;
+            border-radius:18px;font-size:18px;font-weight:700;
+            cursor:pointer;transition:.25s;
+            box-shadow:0 6px 14px rgba(0,0,0,.15);
+        }
+        .btn-submit:hover{background:var(--mint-hover);transform:translateY(-2px);}
+
+        /* === MOBILE FIX === */
+        @media(max-width:480px){
+            body{justify-content:center !important;align-items:center !important;}
+            .center-wrapper{width:88%;gap:12px;}
+            .logo-icon svg{width:54px;height:54px;}
+            .logo-title{font-size:27px;}
+            .login-card{padding:26px 20px;border-radius:22px;}
+            h2{font-size:22px;}
+            .subtitle{font-size:14px;margin-bottom:18px;}
+            .login-input{height:48px;font-size:15px;}
+            .btn-submit{height:50px;font-size:16px;border-radius:16px;}
+            .back-btn{width:34px;height:34px;font-size:16px;}
+            .waves svg{opacity:.23;height:110px;}
+        }
+
+        @keyframes fadeUp{0%{opacity:0;transform:translateY(25px);}100%{opacity:1;transform:translateY(0);}}
+        @keyframes fadeLogo{0%{opacity:0;transform:translateY(-15px) scale(.95);}100%{opacity:1;transform:translateY(0) scale(1);}}
+    </style>
+</head>
+
+<body>
+
+    <button class="back-btn" onclick="history.back()">←</button>
+
+    <div class="center-wrapper">
+
+        <div class="logo-block">
+            <div class="logo-icon">
+                <svg viewBox="0 0 64 64">
+                    <path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z"/>
+                </svg>
+            </div>
+            <div class="logo-title">Beauty Salon</div>
+            <div class="logo-sub">BEAUTY</div>
+        </div>
+
+        <div class="login-card">
+
+            <h2>تسجيل الدخول</h2>
+            <p class="subtitle">أدخل رقم جوالك وسنرسل لك رمز التحقق لإتمام تسجيل الدخول.</p>
+
+            <form id="otpForm" onsubmit="event.preventDefault(); sendOTP();">
+                <div class="field-wrapper">
+                    <label>رقم الجوال</label>
+                    <input type="tel" id="phone" class="login-input" placeholder="05xxxxxxxx">
+                    <div id="phone-error" class="error-text"></div>
+                </div>
+
+                <button type="submit" class="btn-submit">إرسال الكود</button>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="waves">
+        <svg viewBox="0 0 1440 320">
+            <path fill="#ffffff" fill-opacity="0.33"
+                  d="M0,128L80,144C160,160,320,192,480,176C640,160,800,96,960,74.7C1120,53,1280,75,1360,85.3L1440,96V320H0Z"></path>
+        </svg>
+    </div>
+
+    <script>
+        function getCSRFToken(){
+            return document.cookie.split(";")
+                .map(c=>c.trim())
+                .find(c=>c.startsWith("csrftoken="))
+                ?.replace("csrftoken=","") || "";
+        }
+
+        function sendOTP(){
+            const field=document.getElementById("phone");
+            const err=document.getElementById("phone-error");
+            const phone=field.value.trim();
+
+            if(!phone){ err.textContent="الرجاء إدخال رقم الجوال."; return; }
+            if(!/^05\d{8}$/.test(phone)){ err.textContent="رقم غير صحيح."; return; }
+
+            err.textContent="";
+
+            fetch("/accounts/send-otp/",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                    "X-CSRFToken":getCSRFToken()
+                },
+                body:JSON.stringify({ phone })
+            })
+            .then(r=>r.json())
+            .then(d=>{
+                if(d.error){ err.textContent=d.error; return; }
+                // 🔥 بعد الإرسال — التحويل لصفحة إدخال الكود
+                window.location.href = `/accounts/otp-verify/?phone=${phone}`;
+            });
+        }
+    </script>
+
+</body>
+</html>

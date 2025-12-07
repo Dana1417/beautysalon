@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تأكيد الحجز | Beauty Salon</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;padding:0;box-sizing:border-box;
+    font-family:"Tajawal",sans-serif;
+}
+
+body{
+    background:linear-gradient(150deg,#4b00c8,#7a1dff,#c77aff);
+    min-height:100vh;color:#fff;
+    display:flex;justify-content:center;align-items:flex-start;
+    padding:30px 14px;
+}
+
+/* زر الرجوع */
+.back-btn{
+    position:absolute;right:20px;top:20px;
+    background:rgba(255,255,255,.25);
+    padding:10px 15px;border-radius:14px;
+    color:#fff;text-decoration:none;
+    backdrop-filter:blur(12px);
+    transition:.25s;
+}
+.back-btn:hover{
+    background:rgba(255,255,255,.38);
+}
+
+/* الشاشة */
+.screen{width:100%;max-width:430px;}
+
+/* شعار */
+.logo-box{
+    width:92px;height:92px;margin:0 auto 18px auto;
+}
+.logo-box img{
+    width:100%;height:100%;object-fit:contain;
+}
+
+/* عنوان */
+.header{text-align:center;margin-bottom:22px;}
+.header h2{font-size:26px;font-weight:800;margin-bottom:6px;}
+.header p{opacity:.88;font-size:15px;}
+
+/* الكرت */
+.card{
+    background:rgba(255,255,255,1);
+    color:#1b1360;
+    padding:22px;border-radius:22px;
+    box-shadow:0 18px 42px rgba(0,0,0,.27);
+    animation:fadeUp .6s ease;
+}
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(18px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+.row{
+    margin-bottom:12px;
+    display:flex;justify-content:space-between;
+    font-size:15px;
+}
+.row span:first-child{opacity:.7;}
+
+.divider{
+    height:1px;background:rgba(0,0,0,.14);
+    margin:14px 0;
+}
+
+/* زر التأكيد */
+.confirm-btn{
+    width:100%;margin-top:20px;
+    padding:15px;border:none;
+    background:#00d5c3;color:#003c3a;
+    border-radius:999px;font-size:17px;font-weight:800;
+    cursor:pointer;transition:.25s;
+    box-shadow:0 12px 32px rgba(0,0,0,.32);
+}
+.confirm-btn:hover{
+    background:#00c5b4;
+    transform:translateY(-2px);
+}
+</style>
+</head>
+
+<body>
+
+<!-- زر الرجوع -->
+<a href="{% url 'bookings:customer_info' %}" class="back-btn">رجوع</a>
+
+<div class="screen">
+
+    <!-- الشعار -->
+    <div class="logo-box">
+        <img src="{% static 'images/salon-logo.png' %}" alt="logo">
+    </div>
+
+    <!-- عنوان -->
+    <div class="header">
+        <h2>تأكيد الحجز</h2>
+        <p>يرجى مراجعة تفاصيل موعدك قبل الإرسال</p>
+    </div>
+
+    <!-- كرت التفاصيل -->
+    <div class="card">
+
+        <div class="row">
+            <span>الخدمة:</span>
+            <span>{{ service.name }}</span>
+        </div>
+
+        <div class="row">
+            <span>الموظفة:</span>
+            <span>{{ staff.name|default:"بدون تفضيل" }}</span>
+        </div>
+
+        <div class="row">
+            <span>التاريخ:</span>
+            <span>{{ date }}</span>
+        </div>
+
+        <div class="row">
+            <span>الوقت:</span>
+            <span>{{ time }}</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+            <span>العميلة:</span>
+            <span>{{ customer_name }}</span>
+        </div>
+
+        <div class="row">
+            <span>رقم الجوال:</span>
+            <span>{{ customer_phone }}</span>
+        </div>
+
+        <form method="POST" action="{% url 'bookings:complete_booking' %}">
+            {% csrf_token %}
+            <button class="confirm-btn">تأكيد الحجز</button>
+        </form>
+
+    </div>
+
+</div>
+</body>
+</html>
