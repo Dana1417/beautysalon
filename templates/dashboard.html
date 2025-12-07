@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | Beauty Salon</title>
+
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+
+        :root{
+            --wave-bg:linear-gradient(180deg,#5A00E6,#8A2BFF,#C77AFF,#F3CBFF);
+            --glass:rgba(255,255,255,.22);
+            --glass-soft:rgba(255,255,255,.14);
+            --btn-main:#3A0BFF;
+            --btn-soft:#ffffffee;
+        }
+
+        body{
+            font-family:"Tajawal",sans-serif;
+            background:var(--wave-bg);
+            min-height:100vh;
+            padding:30px 18px 120px;
+            color:#fff;
+            overflow-x:hidden;
+            animation:fadeUp .7s ease;
+            display:flex;
+            justify-content:flex-start;
+            flex-direction:column;
+            align-items:center;
+        }
+
+        .page-wrap{
+            width:100%;
+            max-width:440px;
+            position:relative;
+        }
+
+        /* زر الرجوع */
+        .back-btn{
+            width:46px;height:46px;border-radius:50%;
+            border:none;cursor:pointer;
+            background:rgba(255,255,255,.24);
+            display:flex;align-items:center;justify-content:center;
+            font-size:20px;color:#fff;
+            backdrop-filter:blur(8px);
+            position:fixed;top:22px;right:22px;
+            z-index:10;transition:.25s;
+            box-shadow:0 4px 14px rgba(0,0,0,.20);
+        }
+        .back-btn:hover{
+            transform:translateY(-2px);
+            background:rgba(255,255,255,.30);
+        }
+
+        /* الشعار */
+        .logo-block{
+            text-align:center;
+            margin-top:78px;
+            animation:fadeDown .8s ease;
+        }
+
+        .logo-icon svg{
+            width:62px;height:62px;fill:#fff;
+            margin-bottom:10px;
+            filter:drop-shadow(0 4px 12px rgba(0,0,0,.20));
+        }
+
+        .title{
+            font-size:28px;
+            font-weight:800;
+            letter-spacing:1px;
+        }
+
+        .sub{
+            font-size:12px;
+            opacity:.8;
+            margin-top:-4px;
+            letter-spacing:3px;
+        }
+
+        /* الترحيب */
+        .welcome{
+            text-align:center;
+            margin:26px 0 28px;
+        }
+
+        .welcome h3{
+            font-size:23px;
+            font-weight:800;
+            margin-bottom:6px;
+        }
+
+        .welcome p{
+            opacity:.92;font-size:15px;
+        }
+
+        /* الكرت */
+        .card{
+            width:100%;
+            padding:28px;
+            border-radius:24px;
+            background:var(--glass);
+            backdrop-filter:blur(18px);
+            box-shadow:0 8px 26px rgba(0,0,0,.18);
+            margin-bottom:36px;
+            animation:fadeUp .9s ease;
+        }
+
+        .card-title{
+            text-align:center;
+            font-size:19px;
+            font-weight:800;
+            margin-bottom:18px;
+        }
+
+        .info-line{
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:8px;
+            font-size:15.5px;
+        }
+
+        .info-line span:first-child{opacity:.8;}
+        .info-line span:last-child{font-weight:700;}
+
+        .btns-row{
+            display:flex;
+            gap:12px;
+            margin-top:18px;
+        }
+
+        .btn-main, .btn-light{
+            flex:1;
+            height:48px;
+            border:none;
+            border-radius:14px;
+            font-weight:700;
+            font-size:15.5px;
+            cursor:pointer;
+            transition:.25s;
+        }
+
+        .btn-main{background:var(--btn-main);color:#fff;}
+        .btn-light{background:var(--btn-soft);color:#3A0BFF;}
+
+        .btn-main:hover,
+        .btn-light:hover{transform:translateY(-2px);}
+
+        /* عنوان القسم */
+        .section-title{
+            font-size:19px;
+            font-weight:800;
+            margin-bottom:14px;
+        }
+
+        /* السابق */
+        .prev-card{
+            width:100%;
+            padding:20px;
+            border-radius:20px;
+            background:var(--glass-soft);
+            backdrop-filter:blur(14px);
+            box-shadow:0 6px 20px rgba(0,0,0,.16);
+            margin-bottom:22px;
+        }
+
+        .prev-line{
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:6px;
+            font-size:15px;
+        }
+
+        .prev-actions{
+            display:flex;
+            gap:10px;
+            margin-top:18px;
+        }
+
+        .small-btn{
+            flex:1;
+            height:44px;
+            border-radius:14px;
+            background:#fff;
+            color:#3A0BFF;
+            border:none;
+            font-weight:700;
+            font-size:14px;
+            cursor:pointer;
+            transition:.25s;
+            text-align:center;
+            line-height:44px;
+        }
+
+        .small-btn.main-action{
+            background:var(--btn-main);
+            color:#fff;
+        }
+
+        .small-btn:hover{transform:translateY(-2px);}
+
+        /* الموجة */
+        .waves{
+            position:absolute;
+            bottom:0;
+            left:0;
+            width:100%;
+            opacity:.30;
+            z-index:-1;
+        }
+
+        @keyframes fadeUp{
+            0%{opacity:0;transform:translateY(25px);}
+            100%{opacity:1;transform:translateY(0);}
+        }
+        @keyframes fadeDown{
+            0%{opacity:0;transform:translateY(-20px);}
+            100%{opacity:1;transform:translateY(0);}
+        }
+    </style>
+</head>
+
+<body>
+
+<button class="back-btn" onclick="history.back()">←</button>
+
+<div class="page-wrap">
+
+    <!-- الشعار -->
+    <div class="logo-block">
+        <div class="logo-icon">
+            <svg viewBox="0 0 64 64">
+                <path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z"/>
+            </svg>
+        </div>
+        <div class="title">BEAUTY SALON</div>
+        <div class="sub">VERIFY</div>
+    </div>
+
+    <!-- الترحيب -->
+    <div class="welcome">
+        <h3>مرحباً يا {{ phone }} ✨</h3>
+        <p>سعيدة بعودتك إلى Beauty Salon</p>
+    </div>
+
+    <!-- الحجز القادم -->
+    <div class="card">
+        <div class="card-title">حجزك القادم</div>
+
+        <div class="info-line"><span>الخدمة :</span><span>قص و صبغة شعر</span></div>
+        <div class="info-line"><span>التاريخ :</span><span>الثلاثاء 12 ديسمبر، 7:30 م</span></div>
+        <div class="info-line"><span>الحالة :</span><span>مؤكد</span></div>
+
+        <div class="btns-row">
+            <button class="btn-light">عرض الحجز</button>
+            <button class="btn-main">عرض التفاصيل</button>
+        </div>
+    </div>
+
+    <!-- السابق -->
+    <div class="section-title">حجوزات سابقة</div>
+
+    <div class="prev-card">
+        <div class="prev-line"><span>عناية أظافر 💅</span><span>5 ديسمبر</span></div>
+        <div class="prev-line" style="opacity:.8;">منتهٍ</div>
+
+        <div class="prev-actions">
+            <a href="{% url 'accounts:services' %}" class="small-btn main-action">حجز جديد</a>
+            <button class="small-btn">إعادة آخر خدمة</button>
+            <button class="small-btn">تعديل بياناتي</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="waves">
+    <svg viewBox="0 0 1440 320">
+        <path fill="#ffffff" fill-opacity="0.33"
+              d="M0,128L80,144C160,160,320,192,480,176C640,160,800,96,960,74.7C1120,53,1280,75,1360,85.3L1440,96V320H0Z"/>
+    </svg>
+</div>
+
+</body>
+</html>

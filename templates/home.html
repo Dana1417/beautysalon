@@ -169,14 +169,10 @@
             transform:scale(1);
         }
 
-        /* الرابط النشط (الصفحة الحالية) */
+        /* الرابط النشط */
         .nav-links a.active-link{
             opacity:1;
             font-weight:700;
-        }
-        .nav-links a.active-link::after{
-            opacity:1;
-            transform:scale(1);
         }
 
         .btn-nav{
@@ -374,7 +370,7 @@
         }
 
         /* ==========================================================
-           ⭐ FOOTER (الشكل النهائي مع نفس الشعار) ⭐
+           ⭐ FOOTER ⭐
         ========================================================== */
 
         .footer{
@@ -607,7 +603,9 @@
                     <a href="#" class="active-link">الرئيسية</a>
                     <a href="#services">الخدمات</a>
                     <a href="#reviews">آراء العميلات</a>
-                    <a href="#contact">تواصل معنا</a>
+
+                    <!-- 🔥 تفعيل رابط تواصل معنا هنا -->
+                    <a href="{% url 'accounts:contact' %}" class="loader-trigger">تواصل معنا</a>
                 </div>
             </div>
 
@@ -720,82 +718,81 @@
 
             </div>
 
+            <!-- FOOTER -->
             <footer class="footer">
-    <div class="footer-inner">
+                <div class="footer-inner">
 
-        <div class="footer-logo">
-            <svg viewBox="0 0 64 64">
-                <path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z" fill="#2b0084"/>
-            </svg>
-            <h3>Beauty Salon</h3>
-            <span>BEAUTY</span>
-        </div>
+                    <div class="footer-logo">
+                        <svg viewBox="0 0 64 64">
+                            <path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z" fill="#2b0084"/>
+                        </svg>
+                        <h3>Beauty Salon</h3>
+                        <span>BEAUTY</span>
+                    </div>
 
-        <div class="footer-sections">
+                    <div class="footer-sections">
 
-            <div class="footer-section">
-                <h4>روابط سريعة</h4>
-                <a href="#">من نحن</a>
-                <a href="#reviews">آراء العميلات</a>
-                <a href="#services">الخدمات</a>
-                <a href="#contact">تواصل معنا</a>
-            </div>
+                        <div class="footer-section">
+                            <h4>روابط سريعة</h4>
+                            <a href="#">من نحن</a>
+                            <a href="#reviews">آراء العميلات</a>
+                            <a href="#services">الخدمات</a>
 
-            <div class="footer-section">
-                <h4>تواصل معنا</h4>
-                <p>الرياض - المملكة العربية السعودية</p>
-                <p>
-                    <svg class="social-icon" style="width:15px;height:15px;fill:#8a2bff;" viewBox="0 0 24 24">
-                        <path d="M6.6 10.8c1.2 2.4 3.1 4.3 5.5 5.5l1.8-1.8c.2-.2.6-.3.9-.2 1 .3 2 .5 3 .5.5 0 .9.4.9.9V20c0 .5-.4.9-.9.9C9.4 20.9 3.1 14.6 3.1 6.9c0-.5.4-.9.9-.9H7c.5 0 .9.4.9.9 0 1 .2 2 .5 3 .1.3 0 .7-.2.9l-1.6 2z"/>
-                    </svg>
-                    0555555555
-                </p>
+                            <!-- 🔥 تفعيل رابط تواصل معنا هنا أيضًا -->
+                            <a href="{% url 'accounts:contact' %}" class="loader-trigger">تواصل معنا</a>
+                        </div>
 
-                <p>
-                    <svg class="social-icon" style="width:15px;height:15px;fill:#8a2bff;" viewBox="0 0 24 24">
-                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 2v.5l-8 5-8-5V6h16zm-16 12V9l8 5 8-5v9H4z"/>
-                    </svg>
-                    info@beautysalon.com
-                </p>
-            </div>
+                        <div class="footer-section">
+                            <h4>تواصل معنا</h4>
+                            <p>الرياض - المملكة العربية السعودية</p>
+                            <p>
+                                <svg class="social-icon" style="width:15px;height:15px;fill:#8a2bff;" viewBox="0 0 24 24">
+                                    <path d="M6.6 10.8c1.2 2.4 3.1 4.3 5.5 5.5l1.8-1.8c.2-.2.6-.3.9-.2 1 .3 2 .5 3 .5.5 0 .9.4.9.9V20c0 .5-.4.9-.9.9C9.4 20.9 3.1 14.6 3.1 6.9c0-.5.4-.9.9-.9H7c.5 0 .9.4.9.9 0 1 .2 2 .5 3 .1.3 0 .7-.2.9l-1.6 2z"/>
+                                </svg>
+                                0555555555
+                            </p>
 
-            <div class="footer-section">
-                <h4>تابعينا</h4>
+                            <p>
+                                <svg class="social-icon" style="width:15px;height:15px;fill:#8a2bff;" viewBox="0 0 24 24">
+                                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 2v.5l-8 5-8-5V6h16zm-16 12V9l8 5 8-5v9H4z"/>
+                                </svg>
+                                info@beautysalon.com
+                            </p>
+                        </div>
 
-                <!-- انستقرام -->
-                <a href="#">
-                    <svg class="social-icon" style="fill:#8a2bff;width:20px;height:20px;vertical-align:middle;margin-left:6px;" viewBox="0 0 24 24">
-                        <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 7.2A2.7 2.7 0 1 1 14.7 12 2.7 2.7 0 0 1 12 14.7zm4-8.9a1.1 1.1 0 1 1-1.1 1.1 1.1 1.1 0 0 1 1.1-1.1z"/>
-                    </svg>
-                    انستقرام
-                </a>
+                        <div class="footer-section">
+                            <h4>تابعينا</h4>
+                            <a href="#">
+                                <svg class="social-icon" style="fill:#8a2bff;width:20px;height:20px;vertical-align:middle;margin-left:6px;" viewBox="0 0 24 24">
+                                    <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.5 4.5 0 0 0 12 7.5zm0 7.2A2.7 2.7 0 1 1 14.7 12 2.7 2.7 0 0 1 12 14.7zm4-8.9a1.1 1.1 0 1 1-1.1 1.1 1.1 1.1 0 0 1 1.1-1.1z"/>
+                                </svg>
+                                انستقرام
+                            </a>
 
-                <!-- تويتر -->
-                <a href="#">
-                    <svg class="social-icon" style="fill:#8a2bff;width:20px;height:20px;vertical-align:middle;margin-left:6px;" viewBox="0 0 24 24">
-                        <path d="M18 2H6C3.8 2 2 3.8 2 6v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V6c0-2.2-1.8-4-4-4zm-2.2 6.4L12.7 12l3.1 3.6c.4.5-.2 1-.7.7L12 12.9l-3.1 3.4c-.5.4-1.1-.2-.7-.7L11.3 12 8.2 8.4c-.4-.5.2-1.1.7-.7L12 11l3.1-3.3c.5-.4 1.1.2.7.7z"/>
-                    </svg>
-                    تويتر
-                </a>
+                            <a href="#">
+                                <svg class="social-icon" style="fill:#8a2bff;width:20px;height:20px;vertical-align:middle;margin-left:6px;" viewBox="0 0 24 24">
+                                    <path d="M18 2H6C3.8 2 2 3.8 2 6v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V6c0-2.2-1.8-4-4-4zm-2.2 6.4L12.7 12l3.1 3.6c.4.5-.2 1-.7.7L12 12.9l-3.1 3.4c-.5.4-1.1-.2-.7-.7L11.3 12 8.2 8.4c-.4-.5.2-1.1.7-.7L12 11l3.1-3.3c.5-.4 1.1.2.7.7z"/>
+                                </svg>
+                                تويتر
+                            </a>
 
-                <!-- فيسبوك -->
-                <a href="#">
-                    <svg class="social-icon" style="fill:#8a2bff;width:20px;height:20px;vertical-align:middle;margin-left:6px;" viewBox="0 0 24 24">
-                        <path d="M13 3h4V0h-4c-3.3 0-6 2.7-6 6v3H4v4h3v11h4V13h3l1-4h-4V6c0-.6.4-1 1-1z"/>
-                    </svg>
-                    فيسبوك
-                </a>
+                            <a href="#">
+                                <svg class="social-icon" style="fill:#8a2bff;width:20px;height:20px;vertical-align:middle;margin-left:6px;" viewBox="0 0 24 24">
+                                    <path d="M13 3h4V0h-4c-3.3 0-6 2.7-6 6v3H4v4h3v11h4V13h3l1-4h-4V6c0-.6.4-1 1-1z"/>
+                                </svg>
+                                فيسبوك
+                            </a>
 
-            </div>
+                        </div>
 
-        </div>
+                    </div>
 
-        <div class="footer-bottom">
-            جميع الحقوق محفوظة © 2025 Beauty Salon
-        </div>
+                    <div class="footer-bottom">
+                        جميع الحقوق محفوظة © 2025 Beauty Salon
+                    </div>
 
-    </div>
-</footer>
+                </div>
+            </footer>
 
         </div>
 

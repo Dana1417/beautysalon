@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تواصل معنا | Beauty Salon</title>
+
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+
+        :root{
+            --wave-bg:linear-gradient(180deg,#5a00e6,#8a2bff,#c77aff,#f3cbff);
+            --card-bg:rgba(255,255,255,.22);
+            --card-border:rgba(255,255,255,.35);
+            --mint:#00d5c3;
+            --mint-hover:#00c5b4;
+        }
+
+        body{
+            font-family:"Tajawal",sans-serif;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:var(--wave-bg);
+            color:#fff;
+            overflow:hidden;
+            position:relative;
+            padding:20px 0;
+        }
+
+        /* WAVES */
+        .waves{
+            position:absolute;bottom:0;width:100%;opacity:.45;z-index:-1;
+        }
+        .waves svg{width:100%;}
+
+        /* BACK BUTTON */
+        .back-btn{
+            position:absolute;top:18px;right:18px;
+            width:42px;height:42px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            border:none;font-size:18px;color:#fff;
+            background:rgba(255,255,255,.14);
+            backdrop-filter:blur(8px);
+            box-shadow:0 4px 12px rgba(0,0,0,.25);
+            cursor:pointer;transition:.25s;
+        }
+        .back-btn:hover{
+            background:rgba(255,255,255,.22);
+            transform:translateY(-2px) scale(1.03);
+        }
+
+        /* WRAPPER */
+        .center-wrapper{
+            width:100%;max-width:520px;
+            text-align:center;
+            display:flex;flex-direction:column;
+            align-items:center;
+            gap:20px;
+            animation:fadeUp .7s ease;
+        }
+
+        /* LOGO */
+        .logo-block{margin-bottom:4px;animation:fadeLogo .8s ease;}
+        .logo-icon svg{
+            width:68px;height:68px;fill:#fff;
+            filter:drop-shadow(0 4px 12px rgba(0,0,0,.25));
+        }
+        .logo-title{font-size:34px;font-weight:800;margin-top:10px;}
+        .logo-sub{font-size:13px;letter-spacing:3px;opacity:.85;margin-top:-4px;}
+
+        /* CARD */
+        .contact-card{
+            width:100%;
+            padding:36px 28px;
+            background:var(--card-bg);
+            border-radius:28px;
+            backdrop-filter:blur(22px);
+            border:1px solid var(--card-border);
+            box-shadow:0 12px 40px rgba(0,0,0,.22);
+        }
+
+        h2{font-size:27px;font-weight:800;margin-bottom:10px;}
+        .subtitle{
+            font-size:16px;
+            opacity:.96;
+            margin-bottom:26px;
+            line-height:1.8;
+        }
+
+        /* FIELD WRAPPER */
+        .field-wrapper{
+            text-align:right;
+            margin-bottom:20px;
+            position:relative;
+        }
+
+        label{
+            font-size:14px;
+            margin-bottom:6px;
+            opacity:.9;
+            display:block;
+            font-weight:500;
+        }
+
+        /* INPUTS */
+        .input-field{
+            width:100%;
+            height:52px;
+            border:none;
+            border-radius:16px;
+            background:#fff;
+            padding:0 45px 0 16px;
+            font-size:16px;color:#333;
+            box-shadow:0 6px 16px rgba(0,0,0,.09);
+            transition:.25s;
+        }
+
+        .input-field:focus{
+            border:2px solid var(--mint);
+            box-shadow:0 0 10px rgba(0,215,195,.45);
+        }
+
+        /* ICONS INSIDE FIELDS */
+        .field-wrapper .icon{
+            position:absolute;
+            right:14px;
+            top:50%;
+            transform:translateY(-50%);
+            opacity:.55;
+            font-size:17px;
+        }
+
+        /* TEXTAREA */
+        textarea{
+            height:130px;
+            padding:16px 45px 16px 16px;
+            resize:none;
+            border-radius:18px;
+            font-family:"Tajawal",sans-serif;
+        }
+
+        /* SUBMIT BUTTON */
+        .btn-submit{
+            width:100%;height:56px;border:none;
+            background:linear-gradient(90deg,var(--mint),#00e7d5);
+            color:#fff;
+            border-radius:18px;
+            font-size:18px;font-weight:700;
+            cursor:pointer;
+            transition:.25s;
+            margin-top:14px;
+            box-shadow:0 8px 18px rgba(0,0,0,.18);
+        }
+        .btn-submit:hover{
+            transform:translateY(-3px) scale(1.02);
+            box-shadow:0 12px 26px rgba(0,0,0,.22);
+        }
+
+        /* MOBILE */
+        @media(max-width:480px){
+            .center-wrapper{width:88%;}
+            .contact-card{padding:28px 20px;border-radius:24px;}
+            h2{font-size:24px;}
+            .subtitle{font-size:14px;margin-bottom:22px;}
+            .input-field{height:48px;font-size:15px;}
+            textarea{height:115px;}
+            .btn-submit{height:52px;font-size:17px;}
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp{
+            0%{opacity:0;transform:translateY(25px);}
+            100%{opacity:1;transform:translateY(0);}
+        }
+        @keyframes fadeLogo{
+            0%{opacity:0;transform:translateY(-15px) scale(.95);}
+            100%{opacity:1;transform:translateY(0) scale(1);}
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BACK BUTTON -->
+    <button class="back-btn" onclick="history.back()">←</button>
+
+    <div class="center-wrapper">
+
+        <!-- LOGO -->
+        <div class="logo-block">
+            <div class="logo-icon">
+                <svg viewBox="0 0 64 64">
+                    <path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z"/>
+                </svg>
+            </div>
+            <div class="logo-title">Beauty Salon</div>
+            <div class="logo-sub">BEAUTY</div>
+        </div>
+
+        <!-- CONTACT CARD -->
+        <div class="contact-card">
+
+            <h2>تواصل معنا</h2>
+            <p class="subtitle">يسعدنا تواصلك! اكتب رسالتك وسيتم الرد عليك في أقرب وقت ممكن.</p>
+
+            <form method="POST" action="/contact/send/">
+                
+                <div class="field-wrapper">
+                    <label>الاسم الكامل</label>
+                    <span class="icon">👤</span>
+                    <input type="text" class="input-field" name="name" placeholder="اسمك هنا">
+                </div>
+
+                <div class="field-wrapper">
+                    <label>رقم الجوال</label>
+                    <span class="icon">📱</span>
+                    <input type="tel" class="input-field" name="phone" placeholder="05xxxxxxxx">
+                </div>
+
+                <div class="field-wrapper">
+                    <label>الرسالة</label>
+                    <span class="icon">💬</span>
+                    <textarea class="input-field" name="message" placeholder="اكتب رسالتك هنا"></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">إرسال</button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- WAVES -->
+    <div class="waves">
+        <svg viewBox="0 0 1440 320">
+            <path fill="#ffffff" fill-opacity="0.33"
+                d="M0,128L80,144C160,160,320,192,480,176C640,160,800,96,960,74.7C1120,53,1280,75,1360,85.3L1440,96V320H0Z">
+            </path>
+        </svg>
+    </div>
+
+</body>
+</html>
