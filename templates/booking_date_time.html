@@ -193,8 +193,8 @@ body{
     <p>اختاري التاريخ والوقت المناسب</p>
   </div>
 
-  <!-- إرسال البيانات لصفحة التأكيد -->
-  <form method="POST" action="{% url 'bookings:confirm_booking' %}">
+  <!-- 🔥 إصلاح مهم: إرسال البيانات لنفس View -->
+  <form method="POST" action="{% url 'bookings:select_date_time' %}">
     {% csrf_token %}
 
     <div class="calendar-card">
