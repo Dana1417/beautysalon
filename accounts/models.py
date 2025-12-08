@@ -12,55 +12,65 @@ class CustomUserManager(BaseUserManager):
         if not phone:
             raise ValueError("يجب إدخال رقم الجوال")
 
-        # تنظيف رقم الجوال
         phone = str(phone).strip()
 
         user = self.model(phone=phone, **extra_fields)
-        user.set_password(password)   # حتى لو ما نستخدم كلمة مرور الآن
+
+        # كلمة المرور (تُستخدم فقط للأدمن)
+        user.set_password(password or self.make_random_password())
+
         user.save(using=self._db)
         return user
-
 
     def create_superuser(self, phone, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
 
-        if extra_fields.get("is_staff") is False:
-            raise ValueError("المشرف يجب أن يكون is_staff=True")
-
-        if extra_fields.get("is_superuser") is False:
-            raise ValueError("المشرف يجب أن يكون is_superuser=True")
+        if not password:
+            raise ValueError("يجب تعيين كلمة مرور للمشرف")
 
         return self.create_user(phone, password, **extra_fields)
-
 
 
 # ==========================================================
 # 👤 Custom User Model (Login by Phone)
 # ==========================================================
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    phone = models.CharField(max_length=20, unique=True)
-    name = models.CharField(max_length=100, blank=True, null=True)
+    phone = models.CharField(
+        max_length=20,
+        unique=True,
+        verbose_name="رقم الجوال"
+    )
 
-    # حالـة الحساب
+    name = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        verbose_name="الاسم"
+    )
+
+    # صلاحيات
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
     date_joined = models.DateTimeField(default=timezone.now)
 
-    USERNAME_FIELD = "phone"         # تسجيل الدخول باستخدام رقم الجوال
-    REQUIRED_FIELDS = []             # لا نحتاج أي حقول إضافية
+    USERNAME_FIELD = "phone"
+    REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
 
     def __str__(self):
         return self.phone
 
+    class Meta:
+        verbose_name = "مستخدم"
+        verbose_name_plural = "المستخدمون"
 
 
 # ==========================================================
-# 🔢 OTP Model (For verification codes)
+# 🔢 OTP Model
 # ==========================================================
 class OTP(models.Model):
     phone = models.CharField(max_length=20)
@@ -69,3 +79,7 @@ class OTP(models.Model):
 
     def __str__(self):
         return f"{self.phone} - {self.code}"
+
+    class Meta:
+        verbose_name = "رمز تحقق"
+        verbose_name_plural = "أكواد التحقق"

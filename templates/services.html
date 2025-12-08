@@ -30,14 +30,19 @@
 
         /* زر الرجوع */
         .back-btn {
-            position:absolute;top:16px;right:16px;
-            width:38px;height:38px;border:none;
-            border-radius:50%;font-size:18px;color:#fff;
+            position:absolute;
+            top:16px;right:16px;
+            width:38px;height:38px;
+            border:none;
+            border-radius:50%;
+            font-size:18px;color:#fff;
             display:flex;align-items:center;justify-content:center;
             background:rgba(255,255,255,.14);
             backdrop-filter:blur(8px);
             box-shadow:0 4px 12px rgba(0,0,0,.25);
-            cursor:pointer;transition:.25s;
+            cursor:pointer;
+            transition:.25s;
+            text-decoration:none;
         }
         .back-btn:hover {
             background:rgba(255,255,255,.22);
@@ -84,10 +89,6 @@
             gap:22px;
         }
 
-        @media(max-width:768px){
-            .services-grid {gap:18px;}
-        }
-
         .service-card {
             background:#fff;
             border-radius:22px;
@@ -105,10 +106,6 @@
         .service-card:hover {
             transform:translateY(-4px) scale(1.02);
             box-shadow:var(--hover-shadow);
-        }
-
-        .service-card:active {
-            transform:scale(.97);
         }
 
         .service-icon svg {
@@ -138,38 +135,6 @@
             transform:translateY(-2px);
         }
 
-        /* نافذة التأكيد */
-        .confirm-box {
-            position:fixed;inset:0;
-            background:rgba(0,0,0,.55);
-            display:none;align-items:center;justify-content:center;
-        }
-
-        .confirm-card {
-            width:90%;max-width:350px;
-            background:rgba(255,255,255,.16);
-            backdrop-filter:blur(18px);
-            padding:24px 20px;border-radius:18px;
-            text-align:center;
-            box-shadow:0 10px 30px rgba(0,0,0,.25);
-            animation:fadeUp .4s ease;
-        }
-
-        .confirm-btns {
-            display:flex;
-            gap:10px;margin-top:14px;
-        }
-
-        .yes-btn,.no-btn {
-            flex:1;height:42px;border:none;border-radius:12px;
-            font-size:15px;font-weight:700;cursor:pointer;transition:.25s;
-        }
-
-        .yes-btn {background:var(--mint);color:#fff;}
-        .yes-btn:hover {background:var(--mint-hover);}
-        .no-btn {background:rgba(255,255,255,.28);color:#fff;}
-        .no-btn:hover {background:rgba(255,255,255,.40);}
-
         /* موجة */
         .waves {
             position:absolute;bottom:0;width:100%;opacity:.38;z-index:-1;
@@ -183,9 +148,11 @@
 
 <body>
 
-<button class="back-btn" onclick="history.back()">←</button>
+<!-- زر الرجوع للداشبورد -->
+<a href="{% url 'accounts:customer_dashboard' %}" class="back-btn">←</a>
 
-<!-- شعار اللوجين الأصلي -->
+
+<!-- الشعار -->
 <div class="logo-block">
     <div class="logo-icon">
         <svg viewBox="0 0 64 64">
@@ -197,94 +164,89 @@
     <div class="page-title">اختيار الخدمة</div>
 </div>
 
-<div class="services-grid">
+<!-- نموذج الخدمات -->
+<form method="POST" action="{% url 'bookings:select_service' %}">
+    {% csrf_token %}
 
-    <!-- مكياج -->
-    <div class="service-card">
-        <div class="service-icon">
-            <svg viewBox="0 0 24 24">
-                <path d="M10 3.5c0-.8.7-1.5 2-1.5s2 .7 2 1.5v5.5h-4z"/>
-                <rect x="9" y="9" width="6" height="8" rx="2"/>
-                <path d="M9 19h6v2.5a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5z"/>
-            </svg>
+    <input type="hidden" name="service" id="selectedServiceInput">
+
+    <div class="services-grid">
+
+        <!-- مكياج -->
+        <div class="service-card" onclick="chooseService('مكياج')">
+            <div class="service-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M10 3.5c0-.8.7-1.5 2-1.5s2 .7 2 1.5v5.5h-4z"/>
+                    <rect x="9" y="9" width="6" height="8" rx="2"/>
+                    <path d="M9 19h6v2.5a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+            </div>
+            <div class="service-title">مكياج</div>
+            <div class="price">180 ريال</div>
+            <button type="button" class="btn-book">اختيار</button>
         </div>
-        <div class="service-title">مكياج</div>
-        <div class="price">180 ريال</div>
-        <button class="btn-book" onclick="bookService('مكياج')">حجز</button>
-    </div>
 
-    <!-- تسريحة شعر -->
-    <div class="service-card">
-        <div class="service-icon">
-            <svg viewBox="0 0 24 24">
-                <path d="M6 11c0-4.5 3-7 6-8 3 1 6 3.5 6 8 0 3.5-1.5 6-4 7.5"/>
-                <path d="M8 11c0 3 1.5 4.5 3 5.5"/>
-                <path d="M11 14.5c.8.7 2.2.7 3 0"/>
-            </svg>
+        <!-- تسريحة شعر -->
+        <div class="service-card" onclick="chooseService('تسريحة شعر')">
+            <div class="service-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6 11c0-4.5 3-7 6-8 3 1 6 3.5 6 8 0 3.5-1.5 6-4 7.5"/>
+                    <path d="M8 11c0 3 1.5 4.5 3 5.5"/>
+                    <path d="M11 14.5c.8.7 2.2.7 3 0"/>
+                </svg>
+            </div>
+            <div class="service-title">تسريحة شعر</div>
+            <div class="price">120 ريال</div>
+            <button type="button" class="btn-book">اختيار</button>
         </div>
-        <div class="service-title">تسريحة شعر</div>
-        <div class="price">120 ريال</div>
-        <button class="btn-book" onclick="bookService('تسريحة شعر')">حجز</button>
-    </div>
 
-    <!-- قص شعر -->
-    <div class="service-card">
-        <div class="service-icon">
-            <svg viewBox="0 0 24 24">
-                <circle cx="6.5" cy="7" r="2.5"/>
-                <circle cx="6.5" cy="17" r="2.5"/>
-                <path d="M20 4L9 15"/>
-                <path d="M13 13.5L20 21"/>
-            </svg>
+        <!-- قص شعر -->
+        <div class="service-card" onclick="chooseService('قص شعر')">
+            <div class="service-icon">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="6.5" cy="7" r="2.5"/>
+                    <circle cx="6.5" cy="17" r="2.5"/>
+                    <path d="M20 4L9 15"/>
+                    <path d="M13 13.5L20 21"/>
+                </svg>
+            </div>
+            <div class="service-title">قص شعر</div>
+            <div class="price">90 ريال</div>
+            <button type="button" class="btn-book">اختيار</button>
         </div>
-        <div class="service-title">قص شعر</div>
-        <div class="price">90 ريال</div>
-        <button class="btn-book" onclick="bookService('قص شعر')">حجز</button>
-    </div>
 
-    <!-- بدكير ومناكير -->
-    <div class="service-card">
-        <div class="service-icon">
-            <svg viewBox="0 0 24 24">
-                <rect x="9" y="3" width="6" height="10" rx="3"/>
-                <path d="M12 13v8"/>
-                <path d="M8 21.5h8"/>
-            </svg>
+        <!-- بدكير -->
+        <div class="service-card" onclick="chooseService('بدكير ومناكير')">
+            <div class="service-icon">
+                <svg viewBox="0 0 24 24">
+                    <rect x="9" y="3" width="6" height="10" rx="3"/>
+                    <path d="M12 13v8"/>
+                    <path d="M8 21.5h8"/>
+                </svg>
+            </div>
+            <div class="service-title">بدكير ومناكير</div>
+            <div class="price">75 ريال</div>
+            <button type="button" class="btn-book">اختيار</button>
         </div>
-        <div class="service-title">بدكير ومناكير</div>
-        <div class="price">75 ريال</div>
-        <button class="btn-book" onclick="bookService('بدكير ومناكير')">حجز</button>
-    </div>
 
-    <!-- تنظيف بشرة -->
-    <div class="service-card">
-        <div class="service-icon">
-            <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="9" r="3.5"/>
-                <path d="M8.5 9.2h.01"/>
-                <path d="M15.5 9.2h.01"/>
-                <path d="M10.2 11.4c.6.5 1.9.5 2.6 0"/>
-                <path d="M5 20c2-4 12-4 14 0"/>
-            </svg>
+        <!-- تنظيف بشرة -->
+        <div class="service-card" onclick="chooseService('تنظيف بشرة')">
+            <div class="service-icon">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="9" r="3.5"/>
+                    <path d="M8.5 9.2h.01"/>
+                    <path d="M15.5 9.2h.01"/>
+                    <path d="M10.2 11.4c.6.5 1.9.5 2.6 0"/>
+                    <path d="M5 20c2-4 12-4 14 0"/>
+                </svg>
+            </div>
+            <div class="service-title">تنظيف بشرة</div>
+            <div class="price">140 ريال</div>
+            <button type="button" class="btn-book">اختيار</button>
         </div>
-        <div class="service-title">تنظيف بشرة</div>
-        <div class="price">140 ريال</div>
-        <button class="btn-book" onclick="bookService('تنظيف بشرة')">حجز</button>
-    </div>
 
-</div>
-
-<!-- نافذة التأكيد -->
-<div id="confirmBox" class="confirm-box">
-    <div class="confirm-card">
-        <h3>تأكيد حجز الخدمة</h3>
-        <p class="confirm-text" id="confirmText"></p>
-        <div class="confirm-btns">
-            <button class="yes-btn" onclick="confirmBooking()">نعم</button>
-            <button class="no-btn" onclick="closeConfirm()">لا</button>
-        </div>
     </div>
-</div>
+</form>
 
 <!-- موجة -->
 <div class="waves">
@@ -295,21 +257,9 @@
 </div>
 
 <script>
-    let selectedService = "";
-
-    function bookService(service){
-        selectedService = service;
-        document.getElementById("confirmText").textContent =
-            `هل أنتِ متأكدة من حجز خدمة "${service}"؟`;
-        document.getElementById("confirmBox").style.display = "flex";
-    }
-
-    function closeConfirm(){
-        document.getElementById("confirmBox").style.display = "none";
-    }
-
-    function confirmBooking(){
-        window.location.href = `/booking/date-time/?service=${encodeURIComponent(selectedService)}`;
+    function chooseService(service){
+        document.getElementById("selectedServiceInput").value = service;
+        document.querySelector("form").submit();
     }
 </script>
 

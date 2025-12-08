@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from .models import TimeSlot, Booking
+from datetime import date
 
 
 # ============================================================
 # 1) اختيار الخدمة
 # ============================================================
 def select_service_view(request):
-    """صفحة اختيار الخدمة (الشعر – المكياج – الأظافر)."""
-
+    """الخطوة الأولى: اختيار الخدمة."""
     if request.method == "POST":
         service = request.POST.get("service")
 
@@ -16,127 +17,159 @@ def select_service_view(request):
             return redirect("bookings:select_service")
 
         request.session["service"] = {"name": service}
-        return redirect("bookings:select_staff")
+        return redirect("bookings:select_date_time")
 
-    # ملاحظة: اسم القالب هو services.html
     return render(request, "services.html")
 
 
 # ============================================================
-# 2) اختيار الموظفة (اختياري)
-# ============================================================
-def select_staff_view(request):
-    """صفحة اختيار الموظفة أو الاستمرار بدون اختيار."""
-
-    if request.method == "POST":
-        staff = request.POST.get("staff")
-        request.session["staff"] = {"name": staff} if staff else None
-        return redirect("bookings:select_date_time")
-
-    return render(request, "select_staff.html")
-
-
-# ============================================================
-# 3) اختيار التاريخ والوقت
+# 2) اختيار التاريخ والوقت
 # ============================================================
 def select_date_time_view(request):
-    """صفحة اختيار التاريخ والوقت."""
+    """الخطوة الثانية: اختيار تاريخ ووقت الموعد."""
+    if not request.session.get("service"):
+        messages.error(request, "يرجى اختيار الخدمة أولاً.")
+        return redirect("bookings:select_service")
+
+    times = TimeSlot.objects.all().order_by("time")
 
     if request.method == "POST":
-        date = request.POST.get("date")
-        time = request.POST.get("time")
+        date_val = request.POST.get("date")
+        time_str = request.POST.get("time")
 
-        if not date or not time:
+        if not date_val or not time_str:
             messages.error(request, "يرجى اختيار التاريخ والوقت.")
             return redirect("bookings:select_date_time")
 
-        request.session["selected_date"] = date
-        request.session["selected_time"] = time
-
-        return redirect("bookings:customer_info")
-
-    return render(request, "booking_date_time.html")
-
-
-# ============================================================
-# 4) إدخال بيانات العميل
-# ============================================================
-def customer_info_view(request):
-    """صفحة تعبئة بيانات العميل (الاسم – رقم الجوال)."""
-
-    if request.method == "POST":
-        name = request.POST.get("name")
-        phone = request.POST.get("phone")
-
-        if not name or not phone:
-            messages.error(request, "يرجى تعبئة جميع الحقول.")
-            return redirect("bookings:customer_info")
-
-        request.session["customer_name"] = name
-        request.session["customer_phone"] = phone
+        request.session["selected_date"] = date_val
+        request.session["selected_time"] = time_str
 
         return redirect("bookings:confirm_booking")
 
-    return render(request, "customer_info.html")
+    return render(request, "booking_date_time.html", {"times": times})
 
 
 # ============================================================
-# 5) صفحة التأكيد قبل الحجز
+# 3) تأكيد الحجز قبل الإنشاء
 # ============================================================
 def confirm_booking_view(request):
-    """عرض ملخص الحجز قبل الإرسال النهائي."""
+    """عرض تفاصيل الموعد قبل التأكيد."""
+    service = request.session.get("service")
+    date_val = request.session.get("selected_date")
+    time_str = request.session.get("selected_time")
 
-    context = {
-        "service": request.session.get("service"),
-        "date": request.session.get("selected_date"),
-        "time": request.session.get("selected_time"),
-        "staff": request.session.get("staff"),
-        "customer_name": request.session.get("customer_name"),
-        "customer_phone": request.session.get("customer_phone"),
-    }
-
-    # منع فتح صفحة التأكيد بدون المرور بالمراحل السابقة
-    if not context["service"] or not context["date"] or not context["time"]:
-        messages.error(request, "يرجى إكمال الخطوات قبل صفحة التأكيد.")
+    if not service or not date_val or not time_str:
+        messages.error(request, "يرجى إكمال الخطوات.")
         return redirect("bookings:select_service")
 
-    return render(request, "confirm.html", context)
+    return render(request, "confirm.html", {
+        "service": service,
+        "date": date_val,
+        "time": time_str,
+        "customer_phone": request.user.phone if request.user.is_authenticated else "غير مسجل",
+    })
 
 
 # ============================================================
-# 6) تنفيذ الحجز النهائي
+# 4) إنشاء الحجز
 # ============================================================
 def complete_booking_view(request):
-    """تنفيذ الحجز النهائي."""
+    """الخطوة الأخيرة: إنشاء الحجز فعلياً."""
+    if not request.user.is_authenticated:
+        messages.error(request, "يجب تسجيل الدخول.")
+        return redirect("accounts:login")
 
-    # هنا مستقبلاً تضاف عملية حفظ الحجز في قاعدة البيانات
-    messages.success(request, "تم الحجز بنجاح!")
+    service = request.session.get("service")
+    date_val = request.session.get("selected_date")
+    time_str = request.session.get("selected_time")
+
+    if not service or not date_val or not time_str:
+        messages.error(request, "حدث خطأ.. يرجى إعادة العملية.")
+        return redirect("bookings:select_service")
+
+    slot = TimeSlot.objects.filter(time=time_str).first()
+    if not slot:
+        messages.error(request, "الوقت المحدد غير موجود.")
+        return redirect("bookings:select_date_time")
+
+    Booking.objects.create(
+        user=request.user,
+        service=service["name"],
+        date=date_val,
+        time=slot,
+        staff=None,
+        status="confirmed",
+    )
+
+    # تنظيف الجلسة
+    for key in ("service", "selected_date", "selected_time", "edit_booking_id"):
+        request.session.pop(key, None)
 
     return redirect("bookings:booking_success")
 
 
 # ============================================================
-# 7) صفحة نجاح الحجز (التي نصممها الآن)
+# 5) صفحة النجاح
 # ============================================================
 def booking_success_view(request):
-    """صفحة تم الحجز بنجاح."""
+    """عرض آخر حجز ناجح."""
+    latest_booking = None
+    if request.user.is_authenticated:
+        latest_booking = Booking.objects.filter(user=request.user).order_by("-created_at").first()
 
-    context = {
-        "service": request.session.get("service"),
-        "date": request.session.get("selected_date"),
-        "time": request.session.get("selected_time"),
-        "staff": request.session.get("staff"),
-        "customer_name": request.session.get("customer_name"),
-        "customer_phone": request.session.get("customer_phone"),
-        "booking_id": "2025-001",  # مؤقت — لاحقاً سنجلبها من قاعدة البيانات
-    }
-
-    return render(request, "booking_success.html", context)
+    return render(request, "booking_success.html", {
+        "booking": latest_booking
+    })
 
 
 # ============================================================
-# 8) صفحة حجوزات العميل
+# 6) صفحة جميع الحجوزات
 # ============================================================
 def my_bookings_view(request):
-    bookings = []  # سيتم استبداله لاحقاً ببيانات من قاعدة البيانات
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    bookings = Booking.objects.filter(user=request.user).order_by("-created_at")
     return render(request, "my_bookings.html", {"bookings": bookings})
+
+
+# ============================================================
+# 7) إلغاء الحجز
+# ============================================================
+def cancel_booking(request, booking_id):
+    """إلغاء حجز معين."""
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    booking = Booking.objects.filter(id=booking_id, user=request.user).first()
+
+    if not booking:
+        messages.error(request, "الحجز غير موجود.")
+        return redirect("accounts:dashboard")
+
+    booking.status = "canceled"
+    booking.save()
+
+    messages.success(request, "تم إلغاء الحجز بنجاح.")
+    return redirect("accounts:dashboard")
+
+
+# ============================================================
+# 8) تعديل الموعد (إعادة اختيار الوقت)
+# ============================================================
+def edit_booking(request, booking_id):
+    """تعديل الموعد: إرسال العميل مرة أخرى لاختيار التاريخ والوقت."""
+    if not request.user.is_authenticated:
+        return redirect("accounts:login")
+
+    booking = Booking.objects.filter(id=booking_id, user=request.user).first()
+
+    if not booking:
+        messages.error(request, "الحجز غير موجود.")
+        return redirect("accounts:dashboard")
+
+    # وضع معلومات الحجز القديم داخل الجلسة
+    request.session["service"] = {"name": booking.service}
+    request.session["edit_booking_id"] = booking.id
+
+    return redirect("bookings:select_date_time")

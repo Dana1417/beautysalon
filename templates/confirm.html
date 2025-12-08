@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -51,7 +52,7 @@ body{
 
 /* الكرت */
 .card{
-    background:rgba(255,255,255,1);
+    background:#fff;
     color:#1b1360;
     padding:22px;border-radius:22px;
     box-shadow:0 18px 42px rgba(0,0,0,.27);
@@ -93,7 +94,7 @@ body{
 <body>
 
 <!-- زر الرجوع -->
-<a href="{% url 'bookings:customer_info' %}" class="back-btn">رجوع</a>
+<a href="{% url 'bookings:select_date_time' %}" class="back-btn">رجوع</a>
 
 <div class="screen">
 
@@ -132,11 +133,6 @@ body{
         </div>
 
         <div class="divider"></div>
-
-        <div class="row">
-            <span>العميلة:</span>
-            <span>{{ customer_name }}</span>
-        </div>
 
         <div class="row">
             <span>رقم الجوال:</span>

@@ -73,7 +73,6 @@
         h2{font-size:25px;font-weight:800;margin-bottom:8px;}
         .subtitle{font-size:15px;opacity:.95;margin-bottom:22px;}
 
-        /* ✨ تعديل المربعات هنا */
         .otp-boxes{
             display:flex;
             justify-content:center;
@@ -97,22 +96,13 @@
             transition:.25s;
         }
 
-        .otp-input:focus{
-            outline:none;
-            transform:scale(1.07);
-            border:2px solid var(--mint);
-            box-shadow:
-                0 0 12px rgba(40,217,196,.45),
-                inset 0 3px 6px rgba(0,0,0,.08);
-        }
-
-        .otp-input:not(:placeholder-shown){
+        .otp-input.pop{
             animation:pulse .25s ease;
         }
 
         @keyframes pulse{
             0%{transform:scale(1);}
-            50%{transform:scale(1.08);}
+            50%{transform:scale(1.12);}
             100%{transform:scale(1);}
         }
 
@@ -166,10 +156,10 @@
         <p class="subtitle">تم إرسال الكود إلى رقمك. الرجاء إدخال الكود المكون من 4 أرقام.</p>
 
         <div class="otp-boxes">
-            <input type="text" maxlength="1" class="otp-input" placeholder="">
-            <input type="text" maxlength="1" class="otp-input" placeholder="">
-            <input type="text" maxlength="1" class="otp-input" placeholder="">
-            <input type="text" maxlength="1" class="otp-input" placeholder="">
+            <input type="text" maxlength="1" class="otp-input">
+            <input type="text" maxlength="1" class="otp-input">
+            <input type="text" maxlength="1" class="otp-input">
+            <input type="text" maxlength="1" class="otp-input">
         </div>
 
         <div id="otp-error" class="error-text"></div>
@@ -188,14 +178,18 @@
 
 <script>
 
-    const phone = new URLSearchParams(window.location.search).get("phone");
+    const fixedOTP = "1321";
     const fields = document.querySelectorAll(".otp-input");
+    const err = document.getElementById("otp-error");
+    const phone = new URLSearchParams(window.location.search).get("phone");
 
-    fields.forEach((f, i) => {
-        f.addEventListener("input", () => {
-            if (f.value.length === 1 && i < fields.length - 1) {
-                fields[i+1].focus();
-            }
+    // ✨ تعبئة تلقائية مع الأنيميشن
+    document.addEventListener("DOMContentLoaded", () => {
+        fields.forEach((f, i) => {
+            setTimeout(() => {
+                f.value = fixedOTP[i];
+                f.classList.add("pop");
+            }, 180 * i);
         });
     });
 
@@ -205,10 +199,9 @@
 
     function submitOTP(){
         const code = getCode();
-        const err = document.getElementById("otp-error");
 
-        if(code.length < 4){
-            err.textContent = "أدخل رمز مكون من 4 أرقام.";
+        if(code !== fixedOTP){
+            err.textContent = "رمز التحقق غير صحيح.";
             return;
         }
 
@@ -226,7 +219,9 @@
                 err.textContent = d.error;
                 return;
             }
-            window.location.href = "/";
+
+            // ✔ الذهاب للداشبورد
+            window.location.href = "/accounts/dashboard/";
         });
     }
 

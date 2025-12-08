@@ -20,7 +20,6 @@
   --mint-h:#00c5b4;
 }
 
-/* ===== BASE ===== */
 body{
   font-family:"Tajawal",sans-serif;
   background:var(--gradient);
@@ -35,7 +34,6 @@ body{
   to{opacity:1;transform:translateY(0);}
 }
 
-/* ===== SCREEN ===== */
 .screen{
   width:100%;
   max-width:420px;
@@ -44,7 +42,7 @@ body{
   position:relative;
 }
 
-/* ===== BACK BUTTON ===== */
+/* زر الرجوع */
 .back-btn{
   position:fixed;
   top:26px;
@@ -64,7 +62,6 @@ body{
 }
 .back-btn:hover{background:var(--glass-hover);transform:translateY(-2px);}
 
-/* ===== ⭐ الشعار (بعد رفع BEAUTY حسب رغبتك) ===== */
 .logo-block{
   text-align:center;
   margin-top:60px;
@@ -83,12 +80,11 @@ body{
   margin-top:6px;
 }
 
-/* ← هنا تم تنفيذ خيارك (رفع كلمة BEAUTY للأعلى) */
 .sub{
   font-size:13px;
   opacity:.85;
   letter-spacing:3px;
-  margin-top:-8px;   /* ← التعديل الذي طلبتيه (الخيار 2) */
+  margin-top:-8px;
 }
 
 @keyframes fadeDown{
@@ -96,11 +92,9 @@ body{
   to{opacity:1;transform:translateY(0);}
 }
 
-/* ===== HEADER ===== */
 .step-title h2{font-size:22px;font-weight:800;margin-bottom:4px;}
 .step-title p{font-size:14px;opacity:.9;margin-bottom:18px;}
 
-/* ===== CALENDAR CARD ===== */
 .calendar-card{
   background:var(--card);
   color:#1b1360;
@@ -138,7 +132,6 @@ body{
   box-shadow:0 6px 14px rgba(122,29,255,.45);
 }
 
-/* ===== TIMES ===== */
 .times-section{margin-top:22px;}
 .times-section h3{font-size:17px;margin-bottom:10px;}
 
@@ -159,7 +152,6 @@ body{
 }
 .time-pill.disabled{opacity:.3;cursor:not-allowed;}
 
-/* ===== CONFIRM BUTTON ===== */
 .confirm-btn{
   width:92%;padding:14px;border-radius:999px;
   background:var(--mint);color:#003c3a;
@@ -181,11 +173,11 @@ body{
 
 <body>
 
-<button class="back-btn" onclick="window.location.href='/accounts/services/'">←</button>
+<!-- زر الرجوع -->
+<a href="{% url 'bookings:select_service' %}" class="back-btn">←</a>
 
 <div class="screen">
 
-  <!-- ⭐ الشعار بعد رفع BEAUTY ⭐ -->
   <div class="logo-block">
     <div class="logo-icon">
       <svg viewBox="0 0 64 64">
@@ -197,11 +189,12 @@ body{
   </div>
 
   <div class="step-title">
-    <h2>           </h2> 
+    <h2>اختيار الموعد</h2>
     <p>اختاري التاريخ والوقت المناسب</p>
   </div>
 
-  <form method="POST" action="{% url 'bookings:customer_info' %}">
+  <!-- إرسال البيانات لصفحة التأكيد -->
+  <form method="POST" action="{% url 'bookings:confirm_booking' %}">
     {% csrf_token %}
 
     <div class="calendar-card">
@@ -216,26 +209,18 @@ body{
     <div class="times-section">
       <h3>الأوقات المتاحة</h3>
       <div class="times-grid" id="timesGrid">
-        {% for t in available_times %}
-          <button type="button" class="time-pill">{{ t }}</button>
+        {% for t in times %}
+          <button type="button" class="time-pill">{{ t.time|time:"H:i" }}</button>
         {% endfor %}
       </div>
     </div>
 
-    <input type="hidden" name="selected_date" id="selectedDateInput">
-    <input type="hidden" name="selected_time" id="selectedTimeInput">
+    <input type="hidden" name="date" id="selectedDateInput">
+    <input type="hidden" name="time" id="selectedTimeInput">
 
     <button class="confirm-btn" id="confirmBtn" disabled>تأكيد الحجز</button>
   </form>
 
-</div>
-
-<div class="waves">
-  <svg viewBox="0 0 1440 320">
-    <path fill="#ffffff" fill-opacity="0.33"
-      d="M0,128L80,144C160,160,320,192,480,176C640,160,800,96,960,74.7C1120,53,1280,75,1360,85.3L1440,96V320H0Z">
-    </path>
-  </svg>
 </div>
 
 <script>
@@ -249,7 +234,6 @@ const confirmBtn = document.getElementById("confirmBtn");
 const dateInput  = document.getElementById("selectedDateInput");
 const timeInput  = document.getElementById("selectedTimeInput");
 
-/* ===== CALENDAR RENDER ===== */
 function renderCal(){
   grid.innerHTML = "";
 
@@ -297,7 +281,6 @@ function nextMonth(){ current.setMonth(current.getMonth()+1); renderCal(); }
 
 document.querySelectorAll(".time-pill").forEach(btn=>{
   btn.onclick=()=>{
-    if(btn.classList.contains("disabled")) return;
     document.querySelectorAll(".time-pill").forEach(b=>b.classList.remove("selected"));
     btn.classList.add("selected");
     selectedTime = btn.textContent.trim();
