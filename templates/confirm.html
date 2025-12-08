@@ -14,43 +14,58 @@
     font-family:"Tajawal",sans-serif;
 }
 
+/* خلفية بنفس التدرجات الأصلية */
 body{
-    background:linear-gradient(150deg,#4b00c8,#7a1dff,#c77aff);
+    background:linear-gradient(180deg,#5a00e6,#8a2bff,#c77aff,#f3cbff);
     min-height:100vh;color:#fff;
     display:flex;justify-content:center;align-items:flex-start;
     padding:30px 14px;
+    position:relative;
+    overflow:hidden;
 }
 
-/* زر الرجوع */
+/* زر الرجوع — النسخة الأصلية */
 .back-btn{
-    position:absolute;right:20px;top:20px;
-    background:rgba(255,255,255,.25);
-    padding:10px 15px;border-radius:14px;
-    color:#fff;text-decoration:none;
-    backdrop-filter:blur(12px);
-    transition:.25s;
+    position:absolute;top:20px;right:20px;
+    width:40px;height:40px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    border:none;font-size:18px;color:#fff;
+    background:rgba(255,255,255,.14);
+    backdrop-filter:blur(8px);
+    box-shadow:0 4px 12px rgba(0,0,0,.25);
+    cursor:pointer;transition:.25s;
 }
 .back-btn:hover{
-    background:rgba(255,255,255,.38);
+    background:rgba(255,255,255,.22);
+    transform:translateY(-2px);
 }
 
-/* الشاشة */
+/* صندوق الصفحة */
 .screen{width:100%;max-width:430px;}
 
-/* شعار */
-.logo-box{
-    width:92px;height:92px;margin:0 auto 18px auto;
+/* شعار SVG — نفس الموجود في صفحة تسجيل الدخول */
+.logo-block{
+    margin-bottom:16px;
+    text-align:center;
+    animation:fadeLogo 1s ease;
 }
-.logo-box img{
-    width:100%;height:100%;object-fit:contain;
+.logo-block svg{
+    width:70px;height:70px;fill:#fff;
+    filter:drop-shadow(0 4px 12px rgba(0,0,0,.25));
+}
+.logo-title{
+    font-size:28px;font-weight:800;margin-top:6px;
+}
+.logo-sub{
+    font-size:12px;letter-spacing:3px;opacity:.85;margin-top:-4px;
 }
 
-/* عنوان */
+/* العنوان */
 .header{text-align:center;margin-bottom:22px;}
 .header h2{font-size:26px;font-weight:800;margin-bottom:6px;}
 .header p{opacity:.88;font-size:15px;}
 
-/* الكرت */
+/* كرت البيانات */
 .card{
     background:#fff;
     color:#1b1360;
@@ -61,6 +76,11 @@ body{
 @keyframes fadeUp{
     from{opacity:0;transform:translateY(18px);}
     to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes fadeLogo{
+    0%{opacity:0;transform:translateY(-15px) scale(.95);}
+    100%{opacity:1;transform:translateY(0) scale(1);}
 }
 
 .row{
@@ -88,28 +108,44 @@ body{
     background:#00c5b4;
     transform:translateY(-2px);
 }
+
+/* موجات أسفل الصفحة */
+.waves{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    opacity:.40;
+    z-index:-1;
+}
+.waves svg{
+    width:100%;
+}
 </style>
 </head>
 
 <body>
 
 <!-- زر الرجوع -->
-<a href="{% url 'bookings:select_date_time' %}" class="back-btn">رجوع</a>
+<button class="back-btn" onclick="history.back()">←</button>
 
 <div class="screen">
 
     <!-- الشعار -->
-    <div class="logo-box">
-        <img src="{% static 'images/salon-logo.png' %}" alt="logo">
+    <div class="logo-block">
+        <svg viewBox="0 0 64 64">
+            <path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z"/>
+        </svg>
+        <div class="logo-title">Beauty Salon</div>
+        <div class="logo-sub">BEAUTY</div>
     </div>
 
-    <!-- عنوان -->
+    <!-- العنوان -->
     <div class="header">
         <h2>تأكيد الحجز</h2>
         <p>يرجى مراجعة تفاصيل موعدك قبل الإرسال</p>
     </div>
 
-    <!-- كرت التفاصيل -->
+    <!-- الكرت -->
     <div class="card">
 
         <div class="row">
@@ -147,5 +183,14 @@ body{
     </div>
 
 </div>
+
+<!-- موجات -->
+<div class="waves">
+    <svg viewBox="0 0 1440 320">
+        <path fill="#ffffff" fill-opacity="0.33"
+        d="M0,128L80,144C160,160,320,192,480,176C640,160,800,96,960,74.7C1120,53,1280,75,1360,85.3L1440,96V320H0Z"></path>
+    </svg>
+</div>
+
 </body>
 </html>

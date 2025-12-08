@@ -14,11 +14,29 @@
     font-family:"Tajawal",sans-serif;
 }
 
+/* خلفية بتدرجات الهوية */
 body{
-    background:linear-gradient(145deg,#4b00c8,#7a1dff,#c77aff);
+    background:linear-gradient(180deg,#5a00e6,#8a2bff,#c77aff,#f3cbff);
     min-height:100vh;color:#fff;
     display:flex;justify-content:center;
     padding:30px 14px;
+    position:relative;overflow:hidden;
+}
+
+/* زر الرجوع — النسخة الأصلية */
+.back-btn{
+    position:absolute;top:20px;right:20px;
+    width:40px;height:40px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    border:none;font-size:18px;color:#fff;
+    background:rgba(255,255,255,.14);
+    backdrop-filter:blur(8px);
+    box-shadow:0 4px 12px rgba(0,0,0,.25);
+    cursor:pointer;transition:.25s;
+}
+.back-btn:hover{
+    background:rgba(255,255,255,.22);
+    transform:translateY(-2px);
 }
 
 /* الشاشة */
@@ -26,28 +44,22 @@ body{
     width:100%;max-width:430px;position:relative;
 }
 
-/* زر الرجوع */
-.back-btn{
-    position:absolute;right:0;top:0;
-    background:rgba(255,255,255,.22);
-    padding:10px 16px;border-radius:16px;
-    color:#fff;text-decoration:none;font-size:16px;
-    backdrop-filter:blur(12px);
-    transition:.25s;
+/* الشعار الموحد */
+.logo{
+    text-align:center;margin-top:65px;
+    animation:fadeLogo 1s ease;
 }
-.back-btn:hover{background:rgba(255,255,255,.32);}
+.logo svg{
+    width:70px;height:70px;fill:#fff;
+    filter:drop-shadow(0 4px 12px rgba(0,0,0,.25));
+}
+.logo-title{font-size:28px;font-weight:800;margin-top:6px;}
+.logo-sub{font-size:12px;letter-spacing:3px;opacity:.85;margin-top:-4px;}
 
-/* الشعار */
-.logo{text-align:center;margin-top:65px;}
-.logo-icon{
-    width:72px;height:72px;margin:0 auto 6px;
-    background:rgba(255,255,255,.18);
-    border-radius:22px;display:flex;justify-content:center;align-items:center;
-    box-shadow:0 12px 28px rgba(0,0,0,.35);
+@keyframes fadeLogo{
+    0%{opacity:0;transform:translateY(-15px) scale(.95);}
+    100%{opacity:1;transform:translateY(0) scale(1);}
 }
-.logo-icon svg{width:36px;height:36px;fill:#fff;}
-.logo-title{font-size:24px;font-weight:800;}
-.logo-sub{font-size:10px;letter-spacing:4px;opacity:.85;}
 
 /* عنوان */
 .success-title{
@@ -108,23 +120,28 @@ body{
     margin-top:18px;text-align:center;
     font-size:13px;opacity:.85;
 }
+
+/* الموجات */
+.waves{
+    position:absolute;
+    bottom:0;width:100%;opacity:.40;z-index:-1;
+}
+.waves svg{width:100%;}
 </style>
 </head>
 
 <body>
 
-<div class="screen">
+<!-- زر الرجوع -->
+<button class="back-btn" onclick="history.back()">←</button>
 
-    <!-- زر الرجوع -->
-    <a class="back-btn" href="{% url 'bookings:select_service' %}">رجوع</a>
+<div class="screen">
 
     <!-- الشعار -->
     <div class="logo">
-        <div class="logo-icon">
-            <svg viewBox="0 0 64 64">
-                <path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z"/>
-            </svg>
-        </div>
+        <svg viewBox="0 0 64 64">
+            <path d="M32 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14zm0 20c-6-4-10-6-14-6s-8 2-8 6 4 6 8 6 8-2 14-6zm0 0c6-4 10-6 14-6s8 2 8 6-4 6-8 6-8-2-14-6zm0 4c-4 6-6 10-6 14s2 8 6 8 6-4 6-8-2-8-6-14z"/>
+        </svg>
         <div class="logo-title">Beauty Salon</div>
         <div class="logo-sub">BEAUTY</div>
     </div>
@@ -168,6 +185,14 @@ body{
 
     </div>
 
+</div>
+
+<!-- الموجة -->
+<div class="waves">
+    <svg viewBox="0 0 1440 320">
+        <path fill="#ffffff" fill-opacity="0.33"
+        d="M0,128L80,144C160,160,320,192,480,176C640,160,800,96,960,74.7C1120,53,1280,75,1360,85.3L1440,96V320H0Z"></path>
+    </svg>
 </div>
 
 </body>

@@ -11,7 +11,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 :root{
-  --gradient:linear-gradient(180deg,#5a00e6 0%,#8a2bff 40%,#c77aff 75%,#f3cbff 100%);
+  --gradient:linear-gradient(180deg,#5a00e6,#8a2bff,#c77aff,#f3cbff);
   --glass:rgba(255,255,255,.14);
   --glass-hover:rgba(255,255,255,.22);
   --card:#fff;
@@ -24,10 +24,11 @@ body{
   font-family:"Tajawal",sans-serif;
   background:var(--gradient);
   min-height:100vh;
-  padding:20px 16px 90px;
+  padding:20px 16px 120px;
   color:#fff;
   animation:fade .6s ease;
   overflow-x:hidden;
+  position:relative;
 }
 @keyframes fade{
   from{opacity:0;transform:translateY(20px);}
@@ -45,9 +46,8 @@ body{
 /* زر الرجوع */
 .back-btn{
   position:fixed;
-  top:26px;
-  right:26px;
-  width:40px;height:40px;
+  top:26px; right:26px;
+  width:40px; height:40px;
   border-radius:50%;
   border:none;
   display:flex;align-items:center;justify-content:center;
@@ -58,35 +58,29 @@ body{
   backdrop-filter:blur(8px);
   box-shadow:0 4px 12px rgba(0,0,0,.25);
   transition:.25s;
-  z-index:10;
+  z-index:11;
 }
-.back-btn:hover{background:var(--glass-hover);transform:translateY(-2px);}
+.back-btn:hover{
+  background:var(--glass-hover);
+  transform:translateY(-2px);
+}
 
+/* الشعار */
 .logo-block{
   text-align:center;
   margin-top:60px;
   animation:fadeDown .7s ease;
 }
-
 .logo-icon svg{
   width:68px;height:68px;fill:#fff;
   filter:drop-shadow(0 4px 12px rgba(0,0,0,.18));
-  transition:.3s;
 }
-
 .title{
-  font-size:30px;
-  font-weight:800;
-  margin-top:6px;
+  font-size:30px;font-weight:800;margin-top:6px;
 }
-
 .sub{
-  font-size:13px;
-  opacity:.85;
-  letter-spacing:3px;
-  margin-top:-8px;
+  font-size:13px;opacity:.85;letter-spacing:3px;margin-top:-8px;
 }
-
 @keyframes fadeDown{
   from{opacity:0;transform:translateY(-20px);}
   to{opacity:1;transform:translateY(0);}
@@ -95,6 +89,7 @@ body{
 .step-title h2{font-size:22px;font-weight:800;margin-bottom:4px;}
 .step-title p{font-size:14px;opacity:.9;margin-bottom:18px;}
 
+/* الكرت */
 .calendar-card{
   background:var(--card);
   color:#1b1360;
@@ -109,7 +104,6 @@ body{
   display:flex;justify-content:space-between;align-items:center;
   font-size:16px;font-weight:700;
 }
-
 .cal-nav-btn{
   background:none;border:none;
   font-size:20px;color:#5a00e6;
@@ -117,6 +111,7 @@ body{
 }
 .cal-nav-btn:hover{transform:scale(1.15);}
 
+/* التقويم */
 .cal-grid{
   display:grid;grid-template-columns:repeat(7,1fr);
   gap:4px;margin-top:10px;text-align:center;font-size:12px;
@@ -132,42 +127,66 @@ body{
   box-shadow:0 6px 14px rgba(122,29,255,.45);
 }
 
+/* الأوقات */
 .times-section{margin-top:22px;}
 .times-section h3{font-size:17px;margin-bottom:10px;}
-
 .times-grid{
   display:flex;flex-wrap:wrap;gap:10px;
   justify-content:center;
 }
-
 .time-pill{
-  padding:8px 18px;border-radius:999px;
-  background:var(--pill);color:#fff;border:none;
-  cursor:pointer;transition:.25s;font-size:14px;
+  padding:8px 18px;
+  border-radius:999px;
+  background:var(--pill);
+  color:#fff;
+  border:none;
+  cursor:pointer;
+  transition:.25s;
+  font-size:14px;
 }
-.time-pill:hover{background:var(--glass-hover);transform:translateY(-2px);}
+.time-pill:hover{
+  background:var(--glass-hover);
+  transform:translateY(-2px);
+}
 .time-pill.selected{
   background:#8a2bff;
   transform:translateY(-2px) scale(1.05);
 }
-.time-pill.disabled{opacity:.3;cursor:not-allowed;}
 
+/* زر التأكيد */
 .confirm-btn{
-  width:92%;padding:14px;border-radius:999px;
-  background:var(--mint);color:#003c3a;
-  font-size:17px;font-weight:800;
+  width:92%;
+  padding:14px;
+  border-radius:999px;
+  background:var(--mint);
+  color:#003c3a;
+  font-size:17px;
+  font-weight:800;
   margin:26px auto 0;
-  opacity:.4;cursor:not-allowed;border:none;
+  opacity:.4;
+  cursor:not-allowed;
+  border:none;
   transition:.25s;
 }
 .confirm-btn.ready{
-  opacity:1;cursor:pointer;
+  opacity:1;
+  cursor:pointer;
   box-shadow:0 10px 22px rgba(0,0,0,.25);
 }
 .confirm-btn.ready:hover{
   background:var(--mint-h);
   transform:translateY(-2px);
 }
+
+/* الموجة */
+.waves{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  opacity:.35;
+  z-index:-1;
+}
+.waves svg{width:100%;}
 </style>
 </head>
 
@@ -178,6 +197,7 @@ body{
 
 <div class="screen">
 
+  <!-- الشعار -->
   <div class="logo-block">
     <div class="logo-icon">
       <svg viewBox="0 0 64 64">
@@ -193,7 +213,7 @@ body{
     <p>اختاري التاريخ والوقت المناسب</p>
   </div>
 
-  <!-- 🔥 إصلاح مهم: إرسال البيانات لنفس View -->
+  <!-- الفورم -->
   <form method="POST" action="{% url 'bookings:select_date_time' %}">
     {% csrf_token %}
 
@@ -203,6 +223,7 @@ body{
         <span id="monthLabel">—</span>
         <button type="button" class="cal-nav-btn" onclick="nextMonth()">›</button>
       </div>
+
       <div class="cal-grid" id="calendarGrid"></div>
     </div>
 
@@ -223,29 +244,37 @@ body{
 
 </div>
 
-<script>
-let current = new Date();
-let selectedDate = null;
-let selectedTime = null;
+<!-- موجات -->
+<div class="waves">
+  <svg viewBox="0 0 1440 320">
+    <path fill="#ffffff" fill-opacity="0.33"
+      d="M0,128L80,144C160,160,320,192,480,176C640,160,800,96,960,74.7C1120,53,1280,75,1360,85.3L1440,96V320H0Z"></path>
+  </svg>
+</div>
 
-const grid       = document.getElementById("calendarGrid");
-const monthLabel = document.getElementById("monthLabel");
-const confirmBtn = document.getElementById("confirmBtn");
-const dateInput  = document.getElementById("selectedDateInput");
-const timeInput  = document.getElementById("selectedTimeInput");
+<script>
+let current=new Date();
+let selectedDate=null;
+let selectedTime=null;
+
+const grid=document.getElementById("calendarGrid");
+const monthLabel=document.getElementById("monthLabel");
+const confirmBtn=document.getElementById("confirmBtn");
+const dateInput=document.getElementById("selectedDateInput");
+const timeInput=document.getElementById("selectedTimeInput");
 
 function renderCal(){
-  grid.innerHTML = "";
+  grid.innerHTML="";
 
-  const y = current.getFullYear();
-  const m = current.getMonth();
+  const y=current.getFullYear();
+  const m=current.getMonth();
 
-  monthLabel.textContent = current.toLocaleString("ar",{month:"long",year:"numeric"});
+  monthLabel.textContent=current.toLocaleString("ar",{month:"long",year:"numeric"});
 
-  const first = new Date(y,m,1).getDay();
-  const days  = new Date(y,m+1,0).getDate();
+  const first=new Date(y,m,1).getDay();
+  const days=new Date(y,m+1,0).getDate();
 
-  const names = ["أحد","إثن","ثلث","أربع","خميس","جمعة","سبت"];
+  const names=["أحد","إثن","ثلث","أربع","خميس","جمعة","سبت"];
   names.forEach(n=>{
     const el=document.createElement("div");
     el.className="cal-day-name";
@@ -266,25 +295,26 @@ function renderCal(){
     el.onclick=()=>{
       document.querySelectorAll(".cal-day").forEach(x=>x.classList.remove("selected"));
       el.classList.add("selected");
-      selectedDate = `${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
-      dateInput.value = selectedDate;
+
+      selectedDate=`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+      dateInput.value=selectedDate;
       checkReady();
     };
-
     grid.appendChild(el);
   }
 }
 renderCal();
 
-function prevMonth(){ current.setMonth(current.getMonth()-1); renderCal(); }
-function nextMonth(){ current.setMonth(current.getMonth()+1); renderCal(); }
+function prevMonth(){current.setMonth(current.getMonth()-1);renderCal();}
+function nextMonth(){current.setMonth(current.getMonth()+1);renderCal();}
 
 document.querySelectorAll(".time-pill").forEach(btn=>{
   btn.onclick=()=>{
     document.querySelectorAll(".time-pill").forEach(b=>b.classList.remove("selected"));
     btn.classList.add("selected");
-    selectedTime = btn.textContent.trim();
-    timeInput.value = selectedTime;
+
+    selectedTime=btn.textContent.trim();
+    timeInput.value=selectedTime;
     checkReady();
   };
 });
